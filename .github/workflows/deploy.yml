@@ -1,0 +1,46 @@
+name: 🚀 Deploy to GoDaddy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: FTP Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Deploy changed files to GoDaddy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server:     ${{ secrets.FTP_SERVER }}
+          username:   ${{ secrets.FTP_USERNAME }}
+          password:   ${{ secrets.FTP_PASSWORD }}
+          port:       ${{ secrets.FTP_PORT }}
+          protocol:   ftp
+          local-dir:  ./theme/
+          server-dir: ${{ secrets.FTP_THEME_PATH }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            scripts/**
+            README.md
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "✅ Deploy complete — changes are live on maisonmerch.ca"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deploy failed — check the FTP logs above"
+          exit 1

@@ -1,0 +1,49 @@
+name: 📥 Sync Theme from GoDaddy (Run Once)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "yes" to pull the live theme into this repo'
+        required: true
+        default: 'no'
+
+jobs:
+  sync:
+    name: Pull live theme from GoDaddy via FTP
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'yes'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Download theme from GoDaddy
+        env:
+          FTP_SERVER:   ${{ secrets.FTP_SERVER }}
+          FTP_USER:     ${{ secrets.FTP_USERNAME }}
+          FTP_PASS:     ${{ secrets.FTP_PASSWORD }}
+          THEME_PATH:   ${{ secrets.FTP_THEME_PATH }}
+        run: |
+          mkdir -p theme
+          lftp -u "$FTP_USER","$FTP_PASS" ftp://$FTP_SERVER << EOF
+          set ssl:verify-certificate no
+          set ftp:passive-mode true
+          mirror --parallel=4 "$THEME_PATH" ./theme/
+          bye
+          EOF
+          echo "Theme downloaded. Files:"
+          find theme/ -type f | head -30
+
+      - name: Commit and push theme files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add theme/
+          git diff --cached --quiet || git commit -m "chore: sync theme from GoDaddy production [$(date '+%Y-%m-%d')]"
+          git push

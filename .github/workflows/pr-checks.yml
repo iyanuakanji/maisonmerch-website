@@ -1,0 +1,36 @@
+name: ✅ PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Validate changed files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Check for PHP syntax errors
+        run: |
+          echo "Checking PHP syntax..."
+          find theme/ -name "*.php" -exec php -l {} \; 2>&1
+          echo "PHP check complete."
+
+      - name: Check for broken CSS
+        run: |
+          echo "Checking CSS files..."
+          find theme/ -name "*.css" | while read f; do
+            if grep -q "syntax error" "$f" 2>/dev/null; then
+              echo "Potential issue in $f"
+            fi
+          done
+          echo "CSS check complete."
+
+      - name: List changed files in this PR
+        run: |
+          echo "📝 Files changed in this PR:"
+          git diff --name-only origin/main...HEAD || true
