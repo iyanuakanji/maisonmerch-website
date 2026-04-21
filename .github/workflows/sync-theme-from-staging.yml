@@ -33,16 +33,19 @@ jobs:
           THEME_PATH:   ${{ secrets.FTP_STAGING_THEME_PATH }}
         run: |
           echo "🔍 Testing DNS resolution..."
-          nslookup $FTP_SERVER || echo "DNS lookup failed — check FTP_SERVER secret value"
+          nslookup "$FTP_SERVER" || true
+          echo "🔍 Testing TCP connection to FTP port..."
+          nc -zv -w 10 "$FTP_SERVER" "$FTP_PORT" || echo "TCP connection failed — GoDaddy may be blocking GitHub Actions IPs"
           mkdir -p theme
-          lftp -u "$FTP_USER","$FTP_PASS" ftp://$FTP_SERVER:$FTP_PORT << 'FTPEOF'
-          set ssl:verify-certificate no
-          set ftp:passive-mode true
-          set net:timeout 30
-          set net:max-retries 3
-          mirror --parallel=4 "$THEME_PATH" ./theme/
-          bye
-          FTPEOF
+          lftp -e "
+            set ssl:verify-certificate no;
+            set ftp:passive-mode true;
+            set net:timeout 30;
+            set net:max-retries 3;
+            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
+            mirror --parallel=4 $THEME_PATH ./theme/;
+            bye
+          "
           echo "Staging theme downloaded. Files:"
           find theme/ -type f | head -30
 
