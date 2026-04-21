@@ -1,0 +1,46 @@
+name: 🧪 Deploy to Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy-staging:
+    name: FTP Deploy to Staging (staging.maisonmerch.ca)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Deploy changed files to GoDaddy Staging
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server:     ${{ secrets.FTP_SERVER }}
+          username:   ${{ secrets.FTP_USERNAME }}
+          password:   ${{ secrets.FTP_PASSWORD }}
+          port:       ${{ secrets.FTP_PORT }}
+          protocol:   ftp
+          local-dir:  ./theme/
+          server-dir: ${{ secrets.FTP_STAGING_THEME_PATH }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            scripts/**
+            README.md
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "✅ Staging deploy complete — preview at https://staging.maisonmerch.ca"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Staging deploy failed — check the FTP logs above"
+          exit 1
