@@ -444,21 +444,22 @@ ul { list-style: none; }
   transition: transform var(--transition);
 }
 .hero-card-main {
-  width: 280px;
-  left: 50%;
+  width: 240px;
+  left: 4%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translateY(-50%) rotate(-3deg);
   z-index: 3;
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.2);
   text-align: center;
 }
 .hero-card-back {
-  width: 200px;
-  left: 50%;
+  width: 240px;
+  right: 4%;
   top: 50%;
-  transform: translate(-44%, -54%) rotate(6deg);
-  z-index: 1;
+  transform: translateY(-46%) rotate(4deg);
+  z-index: 2;
+  text-align: center;
 }
 .bundle-box {
   width: 120px;
