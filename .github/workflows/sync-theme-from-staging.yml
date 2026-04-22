@@ -15,51 +15,48 @@ jobs:
     if: github.event.inputs.confirm == 'yes'
 
     steps:
-      - name: Copy theme files from server to repo via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     22
-          script: |
-            cd ~
+          ref: staging
 
-            # Clone repo if not already there, otherwise update it
-            if [ -d "maisonmerch-website/.git" ]; then
-              echo "Repo exists — pulling latest..."
-              cd maisonmerch-website
-              git fetch origin
-              git checkout staging
-              git pull origin staging
-            else
-              echo "Cloning repo..."
-              git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git
-              cd maisonmerch-website
-              git checkout staging
-            fi
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p 22 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-            # Verify source path exists
-            echo "🔍 Checking home directory contents..."
+      - name: List server directories
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
+            echo '=== Home directory ==='
             ls ~/
-            echo "🔍 Checking public_html contents..."
-            ls ~/public_html/ || echo "public_html not found"
-            echo "🔍 Checking staging directory..."
-            ls ~/public_html/staging.maisonmerch.ca/ || echo "staging.maisonmerch.ca not found"
-            echo "🔍 Checking themes directory..."
-            ls ~/public_html/staging.maisonmerch.ca/wp-content/themes/ || echo "themes directory not found"
+            echo '=== public_html ==='
+            ls ~/public_html/ 2>/dev/null || echo 'public_html not found'
+            echo '=== Staging root ==='
+            ls ~/public_html/staging.maisonmerch.ca/ 2>/dev/null || echo 'staging.maisonmerch.ca not found'
+            echo '=== Themes ==='
+            ls ~/public_html/staging.maisonmerch.ca/wp-content/themes/ 2>/dev/null || echo 'themes not found'
+          "
 
-            # Copy live theme files into the repo
-            echo "Copying theme files..."
-            cp -r ~/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive/. ~/maisonmerch-website/theme/
-            echo "Files copied: $(find ~/maisonmerch-website/theme/ -type f | wc -l)"
+      - name: Pull theme files from server
+        run: |
+          scp -r -i ~/.ssh/id_ed25519 \
+            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive/ \
+            ./theme/
+          echo "Files pulled: $(find theme/ -type f | wc -l)"
 
-            # Commit and push to staging branch
-            git config user.name  "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add theme/
-            git diff --cached --quiet && echo "No changes to commit" || (
-              git commit -m "chore: sync twentytwentyfive theme from staging server [$(date '+%Y-%m-%d')]" &&
-              git push origin staging &&
-              echo "✅ Theme synced and pushed to staging branch"
-            )
+      - name: Commit and push to staging branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git add theme/
+          git diff --cached --quiet && echo "No changes to commit" || (
+            git commit -m "chore: sync twentytwentyfive theme from staging server [$(date '+%Y-%m-%d')]" &&
+            git push origin staging &&
+            echo "✅ Theme synced and pushed to staging branch"
+          )
