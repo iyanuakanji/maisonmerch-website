@@ -23,37 +23,32 @@ jobs:
 
             REPO_DIR="$HOME/maisonmerch-website"
             THEME_SRC="$REPO_DIR/theme/twentytwentyfive"
+            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
 
-            echo "=== Step 1: Locating staging WordPress directory ==="
-            ls "$HOME/public_html/" || echo "public_html not found"
-            ls "$HOME/public_html/staging.maisonmerch.ca/" 2>/dev/null || echo "staging.maisonmerch.ca dir not found"
-            ls "$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/" 2>/dev/null || echo "themes dir not found"
-
-            echo "=== Step 2: Finding actual staging document root ==="
-            find "$HOME" -maxdepth 3 -name "wp-config.php" 2>/dev/null || echo "No wp-config.php found"
-
-            echo "=== Step 3: Updating repo ==="
+            echo "=== Updating repo with fresh PAT ==="
             if [ -d "$REPO_DIR/.git" ]; then
               cd "$REPO_DIR"
+              git remote set-url origin https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git
               git fetch origin
               git checkout staging
-              git pull origin staging
-              echo "Latest commit: $(git log --oneline -1)"
+              git reset --hard origin/staging
             else
               git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git "$REPO_DIR"
               cd "$REPO_DIR"
               git checkout staging
             fi
+            echo "Server is now at commit: $(git log --oneline -1)"
 
-            echo "=== Step 4: Theme source files ==="
-            ls "$THEME_SRC/" | head -20
+            echo "=== Verifying source files ==="
+            echo "style.min.css size: $(wc -c < $THEME_SRC/style.min.css) bytes"
+            echo "functions.php size: $(wc -c < $THEME_SRC/functions.php) bytes"
 
-            echo "=== Step 5: Copying files ==="
-            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
+            echo "=== Copying theme files to WordPress ==="
             mkdir -p "$THEME_DEST"
-            cp -rv "$THEME_SRC/." "$THEME_DEST/"
+            cp -rf "$THEME_SRC/." "$THEME_DEST/"
 
-            echo "=== Step 6: Verify destination ==="
-            ls "$THEME_DEST/" | head -20
+            echo "=== Verifying destination ==="
+            echo "style.min.css on server: $(wc -c < $THEME_DEST/style.min.css) bytes"
+            echo "functions.php on server: $(wc -c < $THEME_DEST/functions.php) bytes"
 
             echo "✅ Deploy complete — staging.maisonmerch.ca updated"
