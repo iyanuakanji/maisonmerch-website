@@ -1,4 +1,4 @@
-name: 🚀 Deploy to GoDaddy
+name: 🚀 Deploy to GoDaddy site
 
 on:
   push:
