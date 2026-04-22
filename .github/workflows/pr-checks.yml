@@ -17,13 +17,13 @@ jobs:
       - name: Check for PHP syntax errors
         run: |
           echo "Checking PHP syntax..."
-          find theme/ -name "*.php" -exec php -l {} \; 2>&1
+          find . -name "*.php" -not -path "./.git/*" -exec php -l {} \; 2>&1
           echo "PHP check complete."
 
       - name: Check for broken CSS
         run: |
           echo "Checking CSS files..."
-          find theme/ -name "*.css" | while read f; do
+          find . -name "*.css" -not -path "./.git/*" | while read f; do
             if grep -q "syntax error" "$f" 2>/dev/null; then
               echo "Potential issue in $f"
             fi

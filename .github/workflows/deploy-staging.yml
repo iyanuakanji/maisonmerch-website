@@ -6,55 +6,18 @@ on:
       - staging
 
 jobs:
-  deploy-staging:
-    name: Deploy to Staging (staging.maisonmerch.ca)
+  notify:
+    name: Trigger Staging Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     22
-          script: |
-            set -e
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
-            CLONE_DIR="$HOME/maisonmerch-deploy-tmp"
-
-            echo "=== 1. Check file ownership at destination ==="
-            ls -la "$THEME_DEST/style.min.css" || echo "File not found"
-            ls -la "$THEME_DEST/functions.php" || echo "File not found"
-
-            echo "=== 2. Test write permission ==="
-            echo "test" > "$THEME_DEST/deploy-test.txt" && echo "Write OK" || echo "Write FAILED"
-            cat "$THEME_DEST/deploy-test.txt"
-
-            echo "=== 3. Test overwrite of existing file ==="
-            echo "overwrite-test" > "$THEME_DEST/style.min.css" && echo "Overwrite OK" || echo "Overwrite FAILED"
-            wc -c "$THEME_DEST/style.min.css"
-
-            echo "=== 4. Fresh clone ==="
-            rm -rf "$CLONE_DIR"
-            git clone --depth 1 --branch staging \
-              https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git \
-              "$CLONE_DIR"
-            echo "Cloned: $(git -C $CLONE_DIR log --oneline -1)"
-
-            echo "=== 5. Write files using shell redirection ==="
-            find "$CLONE_DIR/theme/twentytwentyfive" -type f | while read src; do
-              relative="${src#$CLONE_DIR/theme/twentytwentyfive/}"
-              dest="$THEME_DEST/$relative"
-              mkdir -p "$(dirname "$dest")"
-              cat "$src" > "$dest"
-            done
-            echo "File write complete"
-
-            echo "=== 6. Verify ==="
-            echo "style.min.css: $(wc -c < $THEME_DEST/style.min.css) bytes"
-            echo "functions.php: $(wc -c < $THEME_DEST/functions.php) bytes"
-
-            rm -rf "$CLONE_DIR"
-            echo "✅ Deploy complete"
+      - name: Confirm deploy triggered
+        run: |
+          echo "✅ Push to staging branch detected."
+          echo "📦 Deployer for Git webhook will automatically sync files to staging.maisonmerch.ca"
+          echo "Commit: ${{ github.sha }}"
+          echo "By: ${{ github.actor }}"
+          echo "Message: ${{ github.event.head_commit.message }}"
