@@ -302,35 +302,27 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   overflow: hidden;
-  /* Deep stadium-night base */
   background-color: #060d1f;
 }
-/* Stadium floodlights — top-left and top-right burst, pitch glow below */
+/* Hero background image */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    /* Top-right floodlight */
-    radial-gradient(ellipse 55% 45% at 92% 0%, rgba(180,210,255,.28) 0%, rgba(100,160,255,.10) 30%, transparent 65%),
-    /* Top-left floodlight */
-    radial-gradient(ellipse 45% 40% at 8% 0%, rgba(180,210,255,.22) 0%, rgba(100,160,255,.08) 30%, transparent 60%),
-    /* Centre-top glow (floodlight spill) */
-    radial-gradient(ellipse 80% 30% at 50% 0%, rgba(140,180,255,.10) 0%, transparent 55%),
-    /* Pitch-level green ambient glow */
-    radial-gradient(ellipse 100% 25% at 50% 100%, rgba(30,80,40,.45) 0%, transparent 60%),
-    /* Overall dark blue atmosphere */
-    linear-gradient(180deg, #060d1f 0%, #0b1530 40%, #081220 100%);
+  background-image: url('http://staging.maisonmerch.ca/wp-content/uploads/2026/04/Hero_background.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   pointer-events: none;
 }
-/* Left-side readability veil + subtle red brand accent on right */
+/* Dark overlay — keeps text readable */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to right, rgba(6,13,31,.88) 0%, rgba(6,13,31,.55) 50%, rgba(6,13,31,.15) 100%),
-    radial-gradient(ellipse 50% 70% at 85% 45%, rgba(230,57,70,.10) 0%, transparent 55%);
+    linear-gradient(to right, rgba(6,13,31,.85) 0%, rgba(6,13,31,.55) 55%, rgba(6,13,31,.2) 100%),
+    linear-gradient(to top, rgba(6,13,31,.5) 0%, transparent 40%);
   pointer-events: none;
 }
 .hero-inner {
