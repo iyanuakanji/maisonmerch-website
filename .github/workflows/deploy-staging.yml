@@ -9,21 +9,26 @@ jobs:
   deploy-staging:
     name: SSH Deploy to Staging (staging.maisonmerch.ca)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy theme files via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     22
-          source:   "theme/"
-          target:   ${{ secrets.SSH_STAGING_PATH }}
-          strip_components: 1
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p 22 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy theme files via rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+            ./theme/twentytwentyfive/ \
+            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_STAGING_PATH }}
 
       - name: Notify on success
         if: success()
@@ -32,5 +37,5 @@ jobs:
       - name: Notify on failure
         if: failure()
         run: |
-          echo "❌ Staging deploy failed — check SSH/SCP logs above"
+          echo "❌ Staging deploy failed — check rsync logs above"
           exit 1
