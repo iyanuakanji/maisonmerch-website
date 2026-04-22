@@ -1,1 +1,318 @@
-a{text-decoration-thickness:1px!important;text-underline-offset:.1em}:where(.wp-site-blocks :focus){outline-width:2px;outline-style:solid}.wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child){margin-bottom:3px}.wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content{outline-offset:4px}.wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content{outline-offset:0}blockquote,caption,figcaption,h1,h2,h3,h4,h5,h6,p{text-wrap:pretty}.more-link{display:block}:where(pre){overflow-x:auto}
+a{text-decoration-thickness:1px!important;text-underline-offset:.1em}:where(.wp-site-blocks :focus){outline-width:2px;outline-style:solid}.wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child){margin-bottom:3px}.wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content{outline-offset:4px}.wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content{outline-offset:0}blockquote,caption,figcaption,h1,h2,h3,h4,h5,h6,p{text-wrap:pretty}.more-link{display:block}:where(pre){overflow-x:auto}/* =============================================================
+   Maison Merch — Custom Theme Styles
+   Design tokens: Navy #1B2D4F | Red #E63946 | Yellow #F5C842
+   Fonts: Bebas Neue (display) | Inter (body)
+   ============================================================= */
+
+/* ── Root tokens ─────────────────────────────────────────── */
+:root {
+  --mm-navy:        #1B2D4F;
+  --mm-navy-dark:   #111d33;
+  --mm-navy-mid:    #243557;
+  --mm-red:         #E63946;
+  --mm-red-dark:    #c0303c;
+  --mm-yellow:      #F5C842;
+  --mm-yellow-dark: #d4aa30;
+  --mm-white:       #ffffff;
+  --mm-off-white:   #F7F8FA;
+  --mm-grey-light:  #e8eaf0;
+  --mm-grey-text:   #8892a4;
+  --mm-body-text:   #2c3a52;
+  --mm-font-display:'Bebas Neue', sans-serif;
+  --mm-font-body:   'Inter', sans-serif;
+  --mm-radius-sm:   6px;
+  --mm-radius-md:   12px;
+  --mm-radius-lg:   20px;
+  --mm-shadow-sm:   0 2px 8px rgba(0,0,0,.08);
+  --mm-shadow-md:   0 8px 30px rgba(0,0,0,.12);
+  --mm-transition:  0.25s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+body {
+  font-family: var(--mm-font-body) !important;
+  color: var(--mm-body-text);
+  background: var(--mm-white);
+}
+
+h1, h2, h3, h4, h5, h6,
+.wp-block-heading {
+  font-family: var(--mm-font-display) !important;
+  letter-spacing: 0.02em;
+  color: var(--mm-navy);
+}
+
+/* ── Navigation ──────────────────────────────────────────── */
+.wp-block-template-part header,
+header.wp-block-template-part {
+  background: var(--mm-navy) !important;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,0,0,.15);
+}
+
+.wp-block-navigation,
+.wp-block-navigation__container {
+  background: transparent !important;
+}
+
+.wp-block-navigation a,
+.wp-block-navigation-item__content {
+  font-family: var(--mm-font-body) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.85) !important;
+  transition: color var(--mm-transition) !important;
+}
+
+.wp-block-navigation a:hover,
+.wp-block-navigation-item__content:hover {
+  color: var(--mm-yellow) !important;
+}
+
+/* Site title / logo in nav */
+.wp-block-site-title a,
+.wp-block-site-logo a {
+  color: var(--mm-white) !important;
+  font-family: var(--mm-font-display) !important;
+  font-size: 22px !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.wp-block-button__link,
+.wp-element-button {
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--mm-radius-sm) !important;
+  padding: 14px 28px !important;
+  transition: all var(--mm-transition) !important;
+  border: 2px solid transparent !important;
+}
+
+/* Primary button — red */
+.wp-block-button:not(.is-style-outline) .wp-block-button__link {
+  background: var(--mm-red) !important;
+  color: var(--mm-white) !important;
+  border-color: var(--mm-red) !important;
+}
+
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:hover {
+  background: var(--mm-red-dark) !important;
+  border-color: var(--mm-red-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(230,57,70,.35);
+}
+
+/* Outline button */
+.wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent !important;
+  color: var(--mm-navy) !important;
+  border-color: var(--mm-navy) !important;
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+  background: var(--mm-navy) !important;
+  color: var(--mm-white) !important;
+}
+
+/* ── Hero / Cover blocks ─────────────────────────────────── */
+.wp-block-cover {
+  min-height: 85vh !important;
+}
+
+.wp-block-cover__inner-container h1,
+.wp-block-cover__inner-container h2 {
+  font-family: var(--mm-font-display) !important;
+  font-size: clamp(3rem, 8vw, 7rem) !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  color: var(--mm-white) !important;
+}
+
+.wp-block-cover__inner-container p {
+  font-family: var(--mm-font-body) !important;
+  font-size: clamp(1rem, 2vw, 1.2rem) !important;
+  color: rgba(255,255,255,.85) !important;
+  max-width: 560px;
+}
+
+/* ── Product / WooCommerce cards ─────────────────────────── */
+.woocommerce ul.products li.product,
+.wc-block-grid__product {
+  border-radius: var(--mm-radius-md) !important;
+  overflow: hidden;
+  transition: transform var(--mm-transition), box-shadow var(--mm-transition) !important;
+  box-shadow: var(--mm-shadow-sm);
+  background: var(--mm-white);
+}
+
+.woocommerce ul.products li.product:hover,
+.wc-block-grid__product:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: var(--mm-shadow-md) !important;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title,
+.wc-block-grid__product-title {
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  color: var(--mm-navy) !important;
+  font-size: 1rem !important;
+}
+
+.woocommerce ul.products li.product .price,
+.wc-block-grid__product-price {
+  color: var(--mm-red) !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+}
+
+.woocommerce ul.products li.product .button,
+.wc-block-grid__product-add-to-cart .wp-block-button__link {
+  background: var(--mm-navy) !important;
+  color: var(--mm-white) !important;
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--mm-radius-sm) !important;
+  border: none !important;
+  transition: background var(--mm-transition) !important;
+}
+
+.woocommerce ul.products li.product .button:hover {
+  background: var(--mm-red) !important;
+}
+
+/* Sale badge */
+.woocommerce span.onsale {
+  background: var(--mm-red) !important;
+  border-radius: 100px !important;
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ── Section headings ────────────────────────────────────── */
+.wp-block-heading {
+  color: var(--mm-navy);
+}
+
+/* Featured section with navy background */
+.has-contrast-background-color,
+[class*="has-accent-3-background"] {
+  background-color: var(--mm-navy) !important;
+}
+
+[class*="has-accent-1-background"] {
+  background-color: var(--mm-red) !important;
+}
+
+[class*="has-accent-2-background"] {
+  background-color: var(--mm-yellow) !important;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.wp-block-template-part footer,
+footer.wp-block-template-part {
+  background: var(--mm-navy-dark) !important;
+  color: rgba(255,255,255,.75) !important;
+  border-top: 3px solid var(--mm-red);
+}
+
+footer .wp-block-heading,
+footer h1, footer h2, footer h3, footer h4 {
+  color: var(--mm-white) !important;
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+footer a {
+  color: rgba(255,255,255,.65) !important;
+  font-size: 0.9rem !important;
+  transition: color var(--mm-transition) !important;
+}
+
+footer a:hover {
+  color: var(--mm-yellow) !important;
+}
+
+footer p {
+  color: rgba(255,255,255,.5) !important;
+  font-size: 0.85rem !important;
+}
+
+/* ── Utility bar (if present) ────────────────────────────── */
+.wp-block-group.has-accent-3-background-color {
+  background: var(--mm-navy-dark) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ── WooCommerce general ─────────────────────────────────── */
+.woocommerce-breadcrumb {
+  font-size: 0.85rem !important;
+  color: var(--mm-grey-text) !important;
+}
+
+.woocommerce div.product .product_title {
+  font-family: var(--mm-font-display) !important;
+  color: var(--mm-navy) !important;
+  font-size: clamp(2rem, 5vw, 3.5rem) !important;
+}
+
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+  color: var(--mm-red) !important;
+  font-weight: 800 !important;
+  font-size: 1.5rem !important;
+}
+
+.woocommerce #respond input#submit,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #place_order {
+  background: var(--mm-red) !important;
+  color: var(--mm-white) !important;
+  font-family: var(--mm-font-body) !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--mm-radius-sm) !important;
+  border: none !important;
+  transition: background var(--mm-transition) !important;
+}
+
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #place_order:hover {
+  background: var(--mm-red-dark) !important;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .wp-block-cover {
+    min-height: 70vh !important;
+  }
+
+  .wp-block-cover__inner-container h1,
+  .wp-block-cover__inner-container h2 {
+    font-size: clamp(2.5rem, 10vw, 4rem) !important;
+  }
+}
