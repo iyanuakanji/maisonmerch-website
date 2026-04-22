@@ -535,6 +535,20 @@ ul { list-style: none; }
   text-align: center;
   line-height: 1.3;
 }
+.hero-card-img-wrap {
+  width: 100%;
+  height: 130px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.hero-card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
 .hero-card-label {
   font-size: 12px;
   font-weight: 700;
@@ -643,16 +657,23 @@ ul { list-style: none; }
   border-color: transparent;
 }
 .bundle-card-img {
-  height: 220px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background: #f0f0f0;
 }
-.bundle-card-img.essential-bg { background: linear-gradient(135deg, #1a1a2e 0%, #c0392b 100%); }
-.bundle-card-img.family-bg    { background: linear-gradient(135deg, #1a2e1a 0%, #1a6b3a 100%); }
-.bundle-card-img.party-bg     { background: linear-gradient(135deg, #1a1a4e 0%, #1a237e 100%); }
+.bundle-card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform .4s ease;
+}
+.bundle-card:hover .bundle-card-photo { transform: scale(1.04); }
 .bundle-big-box {
   width: 160px;
   height: 120px;
