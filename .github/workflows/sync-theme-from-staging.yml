@@ -36,6 +36,24 @@ jobs:
           nslookup "$FTP_SERVER" || true
           echo "🔍 Testing TCP connection to FTP port..."
           nc -zv -w 10 "$FTP_SERVER" "$FTP_PORT" || echo "TCP connection failed — GoDaddy may be blocking GitHub Actions IPs"
+          echo "🔍 Listing root FTP directory..."
+          lftp -e "
+            set ssl:verify-certificate no;
+            set ftp:passive-mode true;
+            set net:timeout 30;
+            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
+            ls;
+            bye
+          "
+          echo "🔍 Listing /public_html/ contents..."
+          lftp -e "
+            set ssl:verify-certificate no;
+            set ftp:passive-mode true;
+            set net:timeout 30;
+            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
+            ls /public_html/;
+            bye
+          "
           mkdir -p theme
           lftp -e "
             set ssl:verify-certificate no;
