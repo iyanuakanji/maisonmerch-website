@@ -68,8 +68,7 @@
       <div class="nav-links">
         <a href="/shop">Shop</a>
         <a href="#bundles">Bundles</a>
-        <a href="#brand-story">Our Story</a>
-        <a href="/contact">Contact</a>
+        <a href="/about-us">About Us</a>
       </div>
 
       <div class="nav-actions">
