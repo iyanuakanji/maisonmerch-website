@@ -64,8 +64,62 @@
           </svg>
         </button>
         <a href="/shop" class="btn btn-primary nav-shop-btn">Shop Now</a>
+        <!-- Hamburger — mobile only -->
+        <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- Mobile menu drawer -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-header">
+    <a href="/" class="nav-logo" aria-label="Maison Merch">
+      <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
+           alt="" class="nav-logo-img" width="44" height="48" loading="eager">
+    </a>
+    <button class="mobile-menu-close" aria-label="Close menu">&times;</button>
+  </div>
+  <nav class="mobile-menu-nav">
+    <a href="/shop">Shop</a>
+    <a href="#bundles">Bundles</a>
+    <a href="/about-us">About Us</a>
+    <a href="/about-us#contact">Contact Us</a>
+  </nav>
+  <div class="mobile-menu-footer">
+    <a href="/shop" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
+    <div class="mobile-menu-trust">
+      <span><span class="trust-dot"></span> Free shipping over $75</span>
+      <span><span class="trust-dot"></span> Ships Canada &amp; USA</span>
+    </div>
+  </div>
+</div>
+<div class="mobile-menu-overlay" id="mobileOverlay"></div>
+
+<script>
+(function(){
+  const toggle = document.querySelector('.nav-hamburger');
+  const close  = document.querySelector('.mobile-menu-close');
+  const menu   = document.getElementById('mobileMenu');
+  const overlay= document.getElementById('mobileOverlay');
+  function open(){
+    menu.classList.add('is-open');
+    overlay.classList.add('is-open');
+    toggle.setAttribute('aria-expanded','true');
+    document.body.style.overflow='hidden';
+  }
+  function shut(){
+    menu.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    document.body.style.overflow='';
+  }
+  toggle.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  overlay.addEventListener('click', shut);
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', shut));
+})();
+</script>
 <!-- /wp:html -->
