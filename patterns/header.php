@@ -41,7 +41,8 @@
     <div class="nav-inner">
       <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
         <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/LogoTransparent-scaled.png"
-     alt="Maison Merch" class="nav-logo-img" width="62" height="66" loading="eager">
+             alt="" class="nav-logo-img" width="56" height="60" loading="eager">
+        <span class="nav-logo-wordmark" aria-hidden="true">MAISON<br>MERCH</span>
       </a>
 
       <div class="nav-links">
