@@ -453,19 +453,12 @@ ul { list-style: none; }
   border-color: rgba(255,255,255,.2);
   text-align: center;
 }
-.hero-card-left {
+.hero-card-back {
   width: 200px;
-  left: 0;
+  left: 50%;
   top: 50%;
-  transform: translateY(-60%) rotate(-6deg);
-  z-index: 2;
-}
-.hero-card-right {
-  width: 200px;
-  right: 0;
-  top: 50%;
-  transform: translateY(-40%) rotate(6deg);
-  z-index: 2;
+  transform: translate(-44%, -54%) rotate(6deg);
+  z-index: 1;
 }
 .bundle-box {
   width: 120px;
