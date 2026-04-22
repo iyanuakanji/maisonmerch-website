@@ -39,9 +39,20 @@ jobs:
               git checkout staging
             fi
 
+            # Verify source path exists
+            echo "🔍 Checking home directory contents..."
+            ls ~/
+            echo "🔍 Checking public_html contents..."
+            ls ~/public_html/ || echo "public_html not found"
+            echo "🔍 Checking staging directory..."
+            ls ~/public_html/staging.maisonmerch.ca/ || echo "staging.maisonmerch.ca not found"
+            echo "🔍 Checking themes directory..."
+            ls ~/public_html/staging.maisonmerch.ca/wp-content/themes/ || echo "themes directory not found"
+
             # Copy live theme files into the repo
             echo "Copying theme files..."
             cp -r ~/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive/. ~/maisonmerch-website/theme/
+            echo "Files copied: $(find ~/maisonmerch-website/theme/ -type f | wc -l)"
 
             # Commit and push to staging branch
             git config user.name  "github-actions[bot]"
