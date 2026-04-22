@@ -24,28 +24,37 @@ jobs:
             THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
             CLONE_DIR="$HOME/maisonmerch-deploy-tmp"
 
-            echo "=== Fresh clone of staging branch ==="
+            echo "=== 1. Check file ownership at destination ==="
+            ls -la "$THEME_DEST/style.min.css" || echo "File not found"
+            ls -la "$THEME_DEST/functions.php" || echo "File not found"
+
+            echo "=== 2. Test write permission ==="
+            echo "test" > "$THEME_DEST/deploy-test.txt" && echo "Write OK" || echo "Write FAILED"
+            cat "$THEME_DEST/deploy-test.txt"
+
+            echo "=== 3. Test overwrite of existing file ==="
+            echo "overwrite-test" > "$THEME_DEST/style.min.css" && echo "Overwrite OK" || echo "Overwrite FAILED"
+            wc -c "$THEME_DEST/style.min.css"
+
+            echo "=== 4. Fresh clone ==="
             rm -rf "$CLONE_DIR"
             git clone --depth 1 --branch staging \
               https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git \
               "$CLONE_DIR"
+            echo "Cloned: $(git -C $CLONE_DIR log --oneline -1)"
 
-            echo "=== Cloned commit ==="
-            git -C "$CLONE_DIR" log --oneline -1
+            echo "=== 5. Write files using shell redirection ==="
+            find "$CLONE_DIR/theme/twentytwentyfive" -type f | while read src; do
+              relative="${src#$CLONE_DIR/theme/twentytwentyfive/}"
+              dest="$THEME_DEST/$relative"
+              mkdir -p "$(dirname "$dest")"
+              cat "$src" > "$dest"
+            done
+            echo "File write complete"
 
-            echo "=== Source file sizes ==="
-            echo "style.min.css: $(wc -c < $CLONE_DIR/theme/twentytwentyfive/style.min.css) bytes"
-            echo "functions.php: $(wc -c < $CLONE_DIR/theme/twentytwentyfive/functions.php) bytes"
-
-            echo "=== Copying to WordPress theme directory ==="
-            mkdir -p "$THEME_DEST"
-            cp -rf "$CLONE_DIR/theme/twentytwentyfive/." "$THEME_DEST/"
-
-            echo "=== Destination file sizes after copy ==="
+            echo "=== 6. Verify ==="
             echo "style.min.css: $(wc -c < $THEME_DEST/style.min.css) bytes"
             echo "functions.php: $(wc -c < $THEME_DEST/functions.php) bytes"
 
-            echo "=== Cleanup ==="
             rm -rf "$CLONE_DIR"
-
-            echo "✅ Deploy complete — staging.maisonmerch.ca updated"
+            echo "✅ Deploy complete"
