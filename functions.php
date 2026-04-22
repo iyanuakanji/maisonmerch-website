@@ -80,7 +80,7 @@ if ( ! function_exists( 'maisonmerch_enqueue_assets' ) ) :
 			'maisonmerch-custom',
 			get_parent_theme_file_uri( 'assets/css/maison-merch.css' ),
 			array( 'maisonmerch-fonts', 'twentytwentyfive-style' ),
-			wp_get_theme()->get( 'Version' )
+			filemtime( get_parent_theme_file_path( 'assets/css/maison-merch.css' ) )
 		);
 	}
 endif;
