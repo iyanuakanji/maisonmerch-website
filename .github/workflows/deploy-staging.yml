@@ -9,33 +9,36 @@ jobs:
   deploy-staging:
     name: SSH Deploy to Staging (staging.maisonmerch.ca)
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Deploy via SSH — server pulls latest theme from GitHub
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     22
+          script: |
+            set -e
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p 22 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+            REPO_DIR="$HOME/maisonmerch-website"
+            THEME_SRC="$REPO_DIR/theme/twentytwentyfive"
+            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
 
-      - name: Deploy theme files via rsync
-        run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
-            ./theme/twentytwentyfive/ \
-            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_STAGING_PATH }}
+            # Clone repo if not present, otherwise pull latest
+            if [ -d "$REPO_DIR/.git" ]; then
+              cd "$REPO_DIR"
+              git fetch origin
+              git checkout staging
+              git pull origin staging
+            else
+              git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git "$REPO_DIR"
+              cd "$REPO_DIR"
+              git checkout staging
+            fi
 
-      - name: Notify on success
-        if: success()
-        run: echo "✅ Staging deploy complete — preview at https://staging.maisonmerch.ca"
+            # Copy theme files to WordPress staging directory
+            mkdir -p "$THEME_DEST"
+            cp -r "$THEME_SRC/." "$THEME_DEST/"
 
-      - name: Notify on failure
-        if: failure()
-        run: |
-          echo "❌ Staging deploy failed — check rsync logs above"
-          exit 1
+            echo "✅ Deploy complete — staging.maisonmerch.ca updated"
