@@ -67,6 +67,25 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 endif;
 add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
 
+// Enqueues Maison Merch Google Fonts and custom stylesheet.
+if ( ! function_exists( 'maisonmerch_enqueue_assets' ) ) :
+	function maisonmerch_enqueue_assets() {
+		wp_enqueue_style(
+			'maisonmerch-fonts',
+			'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap',
+			array(),
+			null
+		);
+		wp_enqueue_style(
+			'maisonmerch-custom',
+			get_parent_theme_file_uri( 'assets/css/maison-merch.css' ),
+			array( 'maisonmerch-fonts', 'twentytwentyfive-style' ),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'maisonmerch_enqueue_assets' );
+
 // Registers custom block styles.
 if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
 	/**
