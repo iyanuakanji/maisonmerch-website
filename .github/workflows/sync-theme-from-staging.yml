@@ -13,6 +13,8 @@ jobs:
     name: Pull staging theme from GoDaddy via SSH
     runs-on: ubuntu-latest
     if: github.event.inputs.confirm == 'yes'
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -48,12 +50,10 @@ jobs:
           echo "Files pulled: $(find theme/ -type f | wc -l)"
 
       - name: Commit and push to staging branch
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
           git add theme/
           git diff --cached --quiet && echo "No changes to commit" || (
             git commit -m "chore: sync twentytwentyfive theme from staging server [$(date '+%Y-%m-%d')]" &&
