@@ -39,30 +39,12 @@
 <nav class="nav">
   <div class="container">
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
+      <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
         <div class="nav-logo-icon">
-          <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <clipPath id="lc-nav">
-                <rect x="12" y="42" width="176" height="162" rx="16"/>
-              </clipPath>
-            </defs>
-            <rect x="12" y="42" width="176" height="162" rx="16" fill="#151E30"/>
-            <g clip-path="url(#lc-nav)">
-              <ellipse cx="40"  cy="62"  rx="54" ry="46" fill="#3BAEE8"/>
-              <ellipse cx="162" cy="62"  rx="54" ry="46" fill="#E63946"/>
-              <ellipse cx="24"  cy="132" rx="46" ry="56" fill="#1B5CB0"/>
-              <ellipse cx="68"  cy="210" rx="60" ry="42" fill="#27AE60"/>
-              <ellipse cx="172" cy="206" rx="48" ry="42" fill="#F5C842"/>
-            </g>
-            <path d="M70,50 C70,20 83,8 100,6 C117,8 130,20 130,50"
-                  fill="none" stroke="#151E30" stroke-width="18" stroke-linecap="round"/>
-            <text x="100" y="141" font-family="'Arial Black','Impact','Helvetica Neue',sans-serif"
-                  font-size="40" font-weight="900" text-anchor="middle" fill="#0D1421" letter-spacing="-0.5">MAISON</text>
-            <text x="100" y="182" font-family="'Arial Black','Impact','Helvetica Neue',sans-serif"
-                  font-size="40" font-weight="900" text-anchor="middle" fill="#0D1421" letter-spacing="-0.5">MERCH</text>
-          </svg>
+          <img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/logo.svg' ) ); ?>"
+               alt="Maison Merch logo" width="48" height="52" loading="eager">
         </div>
+        <span class="nav-logo-wordmark" aria-hidden="true">MAISON<br>MERCH</span>
       </a>
 
       <div class="nav-links">
