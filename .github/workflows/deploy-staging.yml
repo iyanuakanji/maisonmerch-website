@@ -7,48 +7,56 @@ on:
 
 jobs:
   deploy-staging:
-    name: SSH Deploy to Staging (staging.maisonmerch.ca)
+    name: Deploy to Staging (staging.maisonmerch.ca)
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH — server pulls latest theme from GitHub
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     22
-          script: |
-            set -e
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            REPO_DIR="$HOME/maisonmerch-website"
-            THEME_SRC="$REPO_DIR/theme/twentytwentyfive"
-            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p 22 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          echo "SSH ready"
 
-            echo "=== Updating repo with fresh PAT ==="
-            if [ -d "$REPO_DIR/.git" ]; then
-              cd "$REPO_DIR"
-              git remote set-url origin https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git
-              git fetch origin
-              git checkout staging
-              git reset --hard origin/staging
-            else
-              git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git "$REPO_DIR"
-              cd "$REPO_DIR"
-              git checkout staging
-            fi
-            echo "Server is now at commit: $(git log --oneline -1)"
+      - name: Verify theme files on runner
+        run: |
+          echo "style.min.css: $(wc -c < theme/twentytwentyfive/style.min.css) bytes"
+          echo "functions.php: $(wc -c < theme/twentytwentyfive/functions.php) bytes"
+          echo "maison-merch.css: $(wc -c < theme/twentytwentyfive/assets/css/maison-merch.css) bytes"
 
-            echo "=== Verifying source files ==="
-            echo "style.min.css size: $(wc -c < $THEME_SRC/style.min.css) bytes"
-            echo "functions.php size: $(wc -c < $THEME_SRC/functions.php) bytes"
+      - name: Deploy via tar pipe over SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          DEST: /home/ot1zddd6prqc/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive
+        run: |
+          tar czf - -C theme/twentytwentyfive . | \
+          ssh -i ~/.ssh/id_ed25519 \
+              -o StrictHostKeyChecking=no \
+              -o BatchMode=yes \
+              $SSH_USER@$SSH_HOST \
+              "mkdir -p $DEST && cd $DEST && tar xzf -"
 
-            echo "=== Copying theme files to WordPress ==="
-            mkdir -p "$THEME_DEST"
-            cp -rf "$THEME_SRC/." "$THEME_DEST/"
+      - name: Verify files on server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          DEST: /home/ot1zddd6prqc/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+              -o StrictHostKeyChecking=no \
+              -o BatchMode=yes \
+              $SSH_USER@$SSH_HOST \
+              "echo 'style.min.css: '\$(wc -c < $DEST/style.min.css)' bytes' && echo 'functions.php: '\$(wc -c < $DEST/functions.php)' bytes'"
 
-            echo "=== Verifying destination ==="
-            echo "style.min.css on server: $(wc -c < $THEME_DEST/style.min.css) bytes"
-            echo "functions.php on server: $(wc -c < $THEME_DEST/functions.php) bytes"
+      - name: Notify on success
+        if: success()
+        run: echo "✅ Staging deploy complete — staging.maisonmerch.ca updated"
 
-            echo "✅ Deploy complete — staging.maisonmerch.ca updated"
+      - name: Notify on failure
+        if: failure()
+        run: echo "❌ Deploy failed — check logs above"
