@@ -40,7 +40,7 @@
   <div class="container">
     <div class="nav-inner">
       <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
-        <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/LogoTransparent-scaled.png"
+        <img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/logo.svg' ) ); ?>"
              alt="" class="nav-logo-img" width="56" height="60" loading="eager">
       </a>
 
