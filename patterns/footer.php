@@ -20,8 +20,8 @@
         <div class="footer-brand">
           <div class="footer-logo" style="align-items:flex-start">
             <div class="footer-logo-icon">
-              <img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/logo.svg' ) ); ?>"
-                   alt="Maison Merch" width="80" height="86" loading="lazy">
+              <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/LogoTransparent-scaled.png"
+     alt="Maison Merch" class="nav-logo-img" width="62" height="66" loading="eager">
             </div>
           </div>
           <p class="footer-tagline">
