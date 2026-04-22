@@ -40,11 +40,8 @@
   <div class="container">
     <div class="nav-inner">
       <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
-        <div class="nav-logo-icon">
-          <img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/logo.svg' ) ); ?>"
-               alt="Maison Merch logo" width="48" height="52" loading="eager">
-        </div>
-        <span class="nav-logo-wordmark" aria-hidden="true">MAISON<br>MERCH</span>
+        <img src="<?php echo esc_url( get_parent_theme_file_uri( 'assets/images/logo.svg' ) ); ?>"
+             alt="Maison Merch" class="nav-logo-img" width="62" height="66" loading="eager">
       </a>
 
       <div class="nav-links">
