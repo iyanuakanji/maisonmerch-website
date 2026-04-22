@@ -11,52 +11,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key:      ${{ secrets.SSH_PRIVATE_KEY }}
+          port:     22
+          script: |
+            set -e
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p 22 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
-          echo "SSH ready"
+            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
+            CLONE_DIR="$HOME/maisonmerch-deploy-tmp"
 
-      - name: Verify theme files on runner
-        run: |
-          echo "style.min.css: $(wc -c < theme/twentytwentyfive/style.min.css) bytes"
-          echo "functions.php: $(wc -c < theme/twentytwentyfive/functions.php) bytes"
-          echo "maison-merch.css: $(wc -c < theme/twentytwentyfive/assets/css/maison-merch.css) bytes"
+            echo "=== Fresh clone of staging branch ==="
+            rm -rf "$CLONE_DIR"
+            git clone --depth 1 --branch staging \
+              https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git \
+              "$CLONE_DIR"
 
-      - name: Deploy via tar pipe over SSH
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USERNAME }}
-          DEST: /home/ot1zddd6prqc/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive
-        run: |
-          tar czf - -C theme/twentytwentyfive . | \
-          ssh -i ~/.ssh/id_ed25519 \
-              -o StrictHostKeyChecking=no \
-              -o BatchMode=yes \
-              $SSH_USER@$SSH_HOST \
-              "mkdir -p $DEST && cd $DEST && tar xzf -"
+            echo "=== Cloned commit ==="
+            git -C "$CLONE_DIR" log --oneline -1
 
-      - name: Verify files on server
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USERNAME }}
-          DEST: /home/ot1zddd6prqc/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive
-        run: |
-          ssh -i ~/.ssh/id_ed25519 \
-              -o StrictHostKeyChecking=no \
-              -o BatchMode=yes \
-              $SSH_USER@$SSH_HOST \
-              "echo 'style.min.css: '\$(wc -c < $DEST/style.min.css)' bytes' && echo 'functions.php: '\$(wc -c < $DEST/functions.php)' bytes'"
+            echo "=== Source file sizes ==="
+            echo "style.min.css: $(wc -c < $CLONE_DIR/theme/twentytwentyfive/style.min.css) bytes"
+            echo "functions.php: $(wc -c < $CLONE_DIR/theme/twentytwentyfive/functions.php) bytes"
 
-      - name: Notify on success
-        if: success()
-        run: echo "✅ Staging deploy complete — staging.maisonmerch.ca updated"
+            echo "=== Copying to WordPress theme directory ==="
+            mkdir -p "$THEME_DEST"
+            cp -rf "$CLONE_DIR/theme/twentytwentyfive/." "$THEME_DEST/"
 
-      - name: Notify on failure
-        if: failure()
-        run: echo "❌ Deploy failed — check logs above"
+            echo "=== Destination file sizes after copy ==="
+            echo "style.min.css: $(wc -c < $THEME_DEST/style.min.css) bytes"
+            echo "functions.php: $(wc -c < $THEME_DEST/functions.php) bytes"
+
+            echo "=== Cleanup ==="
+            rm -rf "$CLONE_DIR"
+
+            echo "✅ Deploy complete — staging.maisonmerch.ca updated"
