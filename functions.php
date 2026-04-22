@@ -183,3 +183,13 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 		}
 	}
 endif;
+
+// ─── Maison Merch: Override document title ───────────────────────────────────
+add_filter( 'document_title_parts', function( $title ) {
+	$title['site'] = 'Maison Merch';
+	if ( is_front_page() ) {
+		$title['title'] = 'Built for Fans | Official FIFA 2026 Fan Merchandise';
+		unset( $title['tagline'] );
+	}
+	return $title;
+}, 20 );
