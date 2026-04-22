@@ -188,7 +188,7 @@ endif;
 add_filter( 'document_title_parts', function( $title ) {
 	$title['site'] = 'Maison Merch';
 	if ( is_front_page() ) {
-		$title['title'] = 'Built for Fans | Official FIFA 2026 Fan Merchandise';
+		$title['title'] = 'Built for Fans | Cultural Fan Merchandise';
 		unset( $title['tagline'] );
 	}
 	return $title;
