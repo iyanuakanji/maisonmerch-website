@@ -4,108 +4,128 @@
  * Slug: twentytwentyfive/footer
  * Categories: footer
  * Block Types: core/template-part/footer
- * Description: Maison Merch footer with navy background, nav columns and copyright.
+ * Description: Maison Merch full footer with nav columns, social links, and newsletter.
  *
  * @package WordPress
  * @subpackage Twenty_Twenty_Five
  * @since Twenty Twenty-Five 1.0
  */
-
 ?>
-<!-- wp:group {"tagName":"footer","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|40"}}},"layout":{"type":"default"}} -->
-<footer class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--40)">
-	<!-- wp:group {"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group">
-		<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"default"}} -->
-		<div class="wp-block-group alignwide">
+<!-- wp:html -->
+<footer>
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-grid">
 
-			<!-- Top section: logo + nav columns -->
-			<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"top"}} -->
-			<div class="wp-block-group">
+        <div class="footer-brand">
+          <div class="footer-logo" style="align-items:flex-start">
+            <div class="footer-logo-icon">
+              <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg">
+                <defs><clipPath id="lc-footer"><rect x="12" y="42" width="176" height="162" rx="16"/></clipPath></defs>
+                <rect x="12" y="42" width="176" height="162" rx="16" fill="#151E30"/>
+                <g clip-path="url(#lc-footer)">
+                  <ellipse cx="40"  cy="62"  rx="54" ry="46" fill="#3BAEE8"/>
+                  <ellipse cx="162" cy="62"  rx="54" ry="46" fill="#E63946"/>
+                  <ellipse cx="24"  cy="132" rx="46" ry="56" fill="#1B5CB0"/>
+                  <ellipse cx="68"  cy="210" rx="60" ry="42" fill="#27AE60"/>
+                  <ellipse cx="172" cy="206" rx="48" ry="42" fill="#F5C842"/>
+                </g>
+                <path d="M70,50 C70,20 83,8 100,6 C117,8 130,20 130,50" fill="none" stroke="#151E30" stroke-width="18" stroke-linecap="round"/>
+                <text x="100" y="141" font-family="'Arial Black','Impact','Helvetica Neue',sans-serif" font-size="40" font-weight="900" text-anchor="middle" fill="#0D1421" letter-spacing="-0.5">MAISON</text>
+                <text x="100" y="182" font-family="'Arial Black','Impact','Helvetica Neue',sans-serif" font-size="40" font-weight="900" text-anchor="middle" fill="#0D1421" letter-spacing="-0.5">MERCH</text>
+              </svg>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            Where Culture Meets Commerce.<br>
+            Where Identity Meets Experience.<br>
+            Built for fans. Powered by culture.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-btn" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.84 1.56V6.82a4.85 4.85 0 01-1.07-.13z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+          </div>
+        </div>
 
-				<!-- Brand column -->
-				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"vertical"}} -->
-				<div class="wp-block-group">
-					<!-- wp:site-title {"level":2,"style":{"typography":{"fontSize":"20px","letterSpacing":"0.05em","textTransform":"uppercase"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}}} /-->
-					<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.85rem"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}},"textColor":"base"} -->
-					<p class="has-base-color" style="font-size:0.85rem">Premium custom merch, made for your brand.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
+        <div class="footer-col">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="/shipping-returns">Shipping &amp; Returns</a></li>
+            <li><a href="/refund-policy">Refund Policy</a></li>
+            <li><a href="/delivery-info">Delivery Info</a></li>
+            <li><a href="/track-order">Track Your Order</a></li>
+            <li><a href="/size-guide">Size Guide</a></li>
+          </ul>
+        </div>
 
-				<!-- Nav columns -->
-				<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|60"}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"top"}} -->
-				<div class="wp-block-group">
+        <div class="footer-col">
+          <h4>Menu</h4>
+          <ul>
+            <li><a href="/shop">Shop All</a></li>
+            <li><a href="#bundles">Fan Bundles</a></li>
+            <li><a href="/shop">Individual Items</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
 
-					<!-- Shop column -->
-					<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"vertical"}} -->
-					<div class="wp-block-group">
-						<!-- wp:heading {"level":4,"style":{"typography":{"fontSize":"0.8rem","letterSpacing":"0.1em","textTransform":"uppercase","fontWeight":"700"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}},"textColor":"base"} -->
-						<h4 class="wp-block-heading has-base-color" style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase">Shop</h4>
-						<!-- /wp:heading -->
-						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical","flexWrap":"wrap"},"style":{"typography":{"fontSize":"0.9rem"}}} -->
-							<!-- wp:navigation-link {"label":"All Products","url":"/shop"} /-->
-							<!-- wp:navigation-link {"label":"T-Shirts","url":"/product-category/t-shirts"} /-->
-							<!-- wp:navigation-link {"label":"Hoodies","url":"/product-category/hoodies"} /-->
-							<!-- wp:navigation-link {"label":"Hats","url":"/product-category/hats"} /-->
-							<!-- wp:navigation-link {"label":"Accessories","url":"/product-category/accessories"} /-->
-						<!-- /wp:navigation -->
-					</div>
-					<!-- /wp:group -->
+        <div class="footer-col footer-newsletter">
+          <h4>Stay in the Loop</h4>
+          <p>Get early access to new drops, exclusive deals, and game-day inspiration.</p>
+          <div class="newsletter-form">
+            <input class="newsletter-input" type="email" placeholder="Your email address" aria-label="Email address" />
+            <button class="newsletter-btn">Go</button>
+          </div>
+          <div class="footer-trust-chips">
+            <div class="trust-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              SSL Secure
+            </div>
+            <div class="trust-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+                <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+              </svg>
+              Free Returns
+            </div>
+            <div class="trust-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+              Fast Shipping
+            </div>
+          </div>
+        </div>
 
-					<!-- Company column -->
-					<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"vertical"}} -->
-					<div class="wp-block-group">
-						<!-- wp:heading {"level":4,"style":{"typography":{"fontSize":"0.8rem","letterSpacing":"0.1em","textTransform":"uppercase","fontWeight":"700"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}},"textColor":"base"} -->
-						<h4 class="wp-block-heading has-base-color" style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase">Company</h4>
-						<!-- /wp:heading -->
-						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical","flexWrap":"wrap"},"style":{"typography":{"fontSize":"0.9rem"}}} -->
-							<!-- wp:navigation-link {"label":"About Us","url":"/about"} /-->
-							<!-- wp:navigation-link {"label":"How It Works","url":"/how-it-works"} /-->
-							<!-- wp:navigation-link {"label":"Contact","url":"/contact"} /-->
-						<!-- /wp:navigation -->
-					</div>
-					<!-- /wp:group -->
+      </div>
+    </div>
+  </div>
 
-					<!-- Support column -->
-					<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"vertical"}} -->
-					<div class="wp-block-group">
-						<!-- wp:heading {"level":4,"style":{"typography":{"fontSize":"0.8rem","letterSpacing":"0.1em","textTransform":"uppercase","fontWeight":"700"},"elements":{"link":{"color":{"text":"var:preset|color|base"}}}},"textColor":"base"} -->
-						<h4 class="wp-block-heading has-base-color" style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase">Support</h4>
-						<!-- /wp:heading -->
-						<!-- wp:navigation {"overlayMenu":"never","layout":{"type":"flex","orientation":"vertical","flexWrap":"wrap"},"style":{"typography":{"fontSize":"0.9rem"}}} -->
-							<!-- wp:navigation-link {"label":"FAQ","url":"/faq"} /-->
-							<!-- wp:navigation-link {"label":"Shipping & Returns","url":"/shipping-returns"} /-->
-							<!-- wp:navigation-link {"label":"Size Guide","url":"/size-guide"} /-->
-						<!-- /wp:navigation -->
-					</div>
-					<!-- /wp:group -->
-
-				</div>
-				<!-- /wp:group -->
-			</div>
-			<!-- /wp:group -->
-
-			<!-- Divider -->
-			<!-- wp:separator {"style":{"color":{"background":"rgba(255,255,255,0.1)"}}} -->
-			<hr class="wp-block-separator has-text-color has-alpha-channel-opacity has-background" style="background-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.1)"/>
-			<!-- /wp:separator -->
-
-			<!-- Bottom bar: copyright -->
-			<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-			<div class="wp-block-group">
-				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.85rem"}},"textColor":"base"} -->
-				<p class="has-base-color" style="font-size:0.85rem;opacity:0.5"><?php echo esc_html( '© ' . date( 'Y' ) . ' Maison Merch. All rights reserved.' ); ?></p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.85rem"}},"textColor":"base"} -->
-				<p class="has-base-color" style="font-size:0.85rem;opacity:0.5">maisonmerch.ca</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:group -->
-
-		</div>
-		<!-- /wp:group -->
-	</div>
-	<!-- /wp:group -->
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="footer-bottom-inner">
+        <div class="footer-copy">&copy; <?php echo date('Y'); ?> Maison Merch. All rights reserved.</div>
+        <div class="footer-legal">
+          <a href="/terms">Terms &amp; Conditions</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/cookie-policy">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
-<!-- /wp:group -->
+<!-- /wp:html -->
