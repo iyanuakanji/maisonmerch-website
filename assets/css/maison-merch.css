@@ -208,12 +208,21 @@ ul { list-style: none; }
 }
 /* Nav logo — direct image, no container, matches production */
 .nav-logo-img {
-  display: block;
-  width: auto;
-  height: 62px;
+  display: block !important;
+  width: auto !important;
+  height: 62px !important;
+  max-height: 62px !important;
   object-fit: contain;
   flex-shrink: 0;
   transition: transform var(--transition), opacity var(--transition);
+}
+/* Override WooCommerce coming-soon block logo sizing */
+.wp-block-woocommerce-coming-soon .nav-logo-img,
+.woocommerce-coming-soon-store-only .nav-logo-img {
+  width: auto !important;
+  height: 62px !important;
+  max-height: 62px !important;
+  max-width: none !important;
 }
 .nav-logo:hover .nav-logo-img {
   transform: scale(1.04);
