@@ -10,70 +10,45 @@ on:
 
 jobs:
   sync:
-    name: Pull staging theme from GoDaddy via FTP
+    name: Pull staging theme from GoDaddy via SSH
     runs-on: ubuntu-latest
     if: github.event.inputs.confirm == 'yes'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Copy theme files from server to repo via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          token: ${{ github.token }}
-          ref: staging
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port:     22
+          script: |
+            cd ~
 
-      - name: Install lftp
-        run: sudo apt-get install -y lftp
+            # Clone repo if not already there, otherwise update it
+            if [ -d "maisonmerch-website/.git" ]; then
+              echo "Repo exists — pulling latest..."
+              cd maisonmerch-website
+              git fetch origin
+              git checkout staging
+              git pull origin staging
+            else
+              echo "Cloning repo..."
+              git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git
+              cd maisonmerch-website
+              git checkout staging
+            fi
 
-      - name: Download theme from GoDaddy Staging
-        env:
-          FTP_SERVER:   ${{ secrets.FTP_SERVER }}
-          FTP_PORT:     ${{ secrets.FTP_PORT }}
-          FTP_USER:     ${{ secrets.FTP_USERNAME }}
-          FTP_PASS:     ${{ secrets.FTP_PASSWORD }}
-          THEME_PATH:   ${{ secrets.FTP_STAGING_THEME_PATH }}
-        run: |
-          echo "🔍 Testing DNS resolution..."
-          nslookup "$FTP_SERVER" || true
-          echo "🔍 Testing TCP connection to FTP port..."
-          nc -zv -w 10 "$FTP_SERVER" "$FTP_PORT" || echo "TCP connection failed — GoDaddy may be blocking GitHub Actions IPs"
-          echo "🔍 Listing root FTP directory..."
-          lftp -e "
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
-            set net:timeout 30;
-            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
-            ls;
-            bye
-          "
-          echo "🔍 Listing /public_html/ contents..."
-          lftp -e "
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
-            set net:timeout 30;
-            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
-            ls /public_html/;
-            bye
-          "
-          mkdir -p theme
-          lftp -e "
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
-            set net:timeout 30;
-            set net:max-retries 3;
-            open -u $FTP_USER,$FTP_PASS ftp://$FTP_SERVER:$FTP_PORT;
-            mirror --parallel=4 $THEME_PATH ./theme/;
-            bye
-          "
-          echo "Staging theme downloaded. Files:"
-          find theme/ -type f | head -30
+            # Copy live theme files into the repo
+            echo "Copying theme files..."
+            cp -r ~/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive/. ~/maisonmerch-website/theme/
 
-      - name: Commit and push theme files to staging branch
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
-          git add theme/
-          git diff --cached --quiet || git commit -m "chore: sync theme from GoDaddy staging [$(date '+%Y-%m-%d')]"
-          git push origin staging
+            # Commit and push to staging branch
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add theme/
+            git diff --cached --quiet && echo "No changes to commit" || (
+              git commit -m "chore: sync twentytwentyfive theme from staging server [$(date '+%Y-%m-%d')]" &&
+              git push origin staging &&
+              echo "✅ Theme synced and pushed to staging branch"
+            )
