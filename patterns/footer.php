@@ -53,21 +53,22 @@
         </div>
 
         <div class="footer-col">
-          <h4>Useful Links</h4>
+          <h4>Help</h4>
           <ul>
+            <li><a href="/faq">FAQ</a></li>
             <li><a href="/shipping-returns">Shipping &amp; Returns</a></li>
             <li><a href="/refund-policy">Refund Policy</a></li>
-            <li><a href="/delivery">Delivery</a></li>
+            <li><a href="/contact">Contact Us</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Menu</h4>
           <ul>
-            <li><a href="/terms-and-conditions">Terms &amp; Conditions</a></li>
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
             <li><a href="/shop">Shop All</a></li>
             <li><a href="/about-us">About Us</a></li>
+            <li><a href="/terms-and-conditions">Terms &amp; Conditions</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
           </ul>
         </div>
 
@@ -111,7 +112,7 @@
       <div class="footer-bottom-inner">
         <div class="footer-copy">&copy; <?php echo date('Y'); ?> Maison Merch. All rights reserved.</div>
         <div class="footer-legal">
-          <a href="/terms">Terms &amp; Conditions</a>
+          <a href="/terms-and-conditions">Terms &amp; Conditions</a>
           <a href="/privacy-policy">Privacy Policy</a>
           <a href="/cookie-policy">Cookie Policy</a>
         </div>

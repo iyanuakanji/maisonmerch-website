@@ -48,6 +48,8 @@
         <a href="/shop">Shop</a>
         <a href="#bundles">Bundles</a>
         <a href="/about-us">About Us</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a>
       </div>
 
       <div class="nav-actions">
@@ -86,7 +88,8 @@
     <a href="/shop">Shop</a>
     <a href="#bundles">Bundles</a>
     <a href="/about-us">About Us</a>
-    <a href="/about-us#contact">Contact Us</a>
+    <a href="/faq">FAQ</a>
+    <a href="/contact">Contact Us</a>
   </nav>
   <div class="mobile-menu-footer">
     <a href="/shop" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
