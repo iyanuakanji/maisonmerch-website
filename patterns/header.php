@@ -45,7 +45,7 @@
       </a>
 
       <div class="nav-links">
-        <a href="/shop">Shop</a>
+        <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer">Shop</a>
         <a href="#bundles">Bundles</a>
         <a href="/about-us">About Us</a>
         <a href="/faq">FAQ</a>
@@ -65,7 +65,7 @@
             <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
           </svg>
         </button>
-        <a href="/shop" class="btn btn-primary nav-shop-btn">Shop Now</a>
+        <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-shop-btn">Shop Now</a>
         <!-- Hamburger — mobile only -->
         <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -85,14 +85,14 @@
     <button class="mobile-menu-close" aria-label="Close menu">&times;</button>
   </div>
   <nav class="mobile-menu-nav">
-    <a href="/shop">Shop</a>
+    <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer">Shop</a>
     <a href="#bundles">Bundles</a>
     <a href="/about-us">About Us</a>
     <a href="/faq">FAQ</a>
     <a href="/contact">Contact Us</a>
   </nav>
   <div class="mobile-menu-footer">
-    <a href="/shop" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
+    <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
     <div class="mobile-menu-trust">
       <span><span class="trust-dot"></span> Free shipping over $75</span>
       <span><span class="trust-dot"></span> Ships Canada &amp; USA</span>

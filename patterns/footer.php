@@ -65,7 +65,7 @@
         <div class="footer-col">
           <h4>Menu</h4>
           <ul>
-            <li><a href="/shop">Shop All</a></li>
+            <li><a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer">Shop All</a></li>
             <li><a href="/about-us">About Us</a></li>
             <li><a href="/terms-and-conditions">Terms &amp; Conditions</a></li>
             <li><a href="/privacy-policy">Privacy Policy</a></li>
