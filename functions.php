@@ -218,8 +218,16 @@ add_action( 'init', function() {
 		[ 'title' => 'Privacy Policy',        'slug' => 'privacy-policy'     ],
 		[ 'title' => 'Cookie Policy',         'slug' => 'cookie-policy'      ],
 	];
+	$flushed = false;
 	foreach ( $pages as $page ) {
-		if ( ! get_page_by_path( $page['slug'] ) ) {
+		// Check any status including draft — look for slug match across all statuses
+		$existing = get_posts( [
+			'name'        => $page['slug'],
+			'post_type'   => 'page',
+			'post_status' => [ 'publish', 'draft', 'pending', 'private', 'auto-draft' ],
+			'numberposts' => 1,
+		] );
+		if ( empty( $existing ) ) {
 			wp_insert_post( [
 				'post_title'  => $page['title'],
 				'post_name'   => $page['slug'],
@@ -227,6 +235,18 @@ add_action( 'init', function() {
 				'post_type'   => 'page',
 				'post_author' => 1,
 			] );
+			$flushed = true;
+		} elseif ( $existing[0]->post_status !== 'publish' ) {
+			// Page exists but isn't published — publish it
+			wp_update_post( [
+				'ID'          => $existing[0]->ID,
+				'post_status' => 'publish',
+				'post_name'   => $page['slug'],
+			] );
+			$flushed = true;
 		}
+	}
+	if ( $flushed ) {
+		flush_rewrite_rules();
 	}
 } );
