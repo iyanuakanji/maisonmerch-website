@@ -191,5 +191,42 @@ add_filter( 'document_title_parts', function( $title ) {
 		$title['title'] = 'Built for Fans | Cultural Fan Merchandise';
 		unset( $title['tagline'] );
 	}
+	// Fix capitalisation for pages created with lowercase titles
+	$slug_titles = [
+		'contact'            => 'Contact Us',
+		'faq'                => 'FAQ',
+		'shipping-returns'   => 'Shipping & Returns',
+		'refund-policy'      => 'Refund Policy',
+		'terms-and-conditions' => 'Terms & Conditions',
+		'privacy-policy'     => 'Privacy Policy',
+		'cookie-policy'      => 'Cookie Policy',
+		'about-us'           => 'About Us',
+	];
+	$post = get_queried_object();
+	if ( $post && isset( $post->post_name ) && isset( $slug_titles[ $post->post_name ] ) ) {
+		$title['title'] = $slug_titles[ $post->post_name ];
+	}
 	return $title;
 }, 20 );
+
+// ─── Maison Merch: Auto-create required pages if missing ─────────────────────
+add_action( 'init', function() {
+	$pages = [
+		[ 'title' => 'Shipping & Returns',   'slug' => 'shipping-returns'   ],
+		[ 'title' => 'Refund Policy',         'slug' => 'refund-policy'      ],
+		[ 'title' => 'Terms & Conditions',    'slug' => 'terms-and-conditions'],
+		[ 'title' => 'Privacy Policy',        'slug' => 'privacy-policy'     ],
+		[ 'title' => 'Cookie Policy',         'slug' => 'cookie-policy'      ],
+	];
+	foreach ( $pages as $page ) {
+		if ( ! get_page_by_path( $page['slug'] ) ) {
+			wp_insert_post( [
+				'post_title'  => $page['title'],
+				'post_name'   => $page['slug'],
+				'post_status' => 'publish',
+				'post_type'   => 'page',
+				'post_author' => 1,
+			] );
+		}
+	}
+} );
