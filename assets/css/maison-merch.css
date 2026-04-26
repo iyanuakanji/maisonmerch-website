@@ -2403,3 +2403,257 @@ footer {
   .inner-sidebar { display: none; }
   .prose h2 { font-size: 1.5rem; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   COUNTRY SHOWCASE  (v1.5.0)
+═══════════════════════════════════════════════════════ */
+.countries {
+  padding: 80px 0;
+  background: var(--off-white);
+}
+.countries-grid {
+  display: grid;
+  /* 6-col subgrid: each card spans 2 cols; row 2 cards 4+5 start at col 2 & 4 = centred */
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.countries-grid .country-card { grid-column: span 2; }
+@media (min-width: 901px) {
+  /* Row 2: card 4 starts at col 2, card 5 at col 4 — centres the two cards */
+  .countries-grid .country-card:nth-child(4) { grid-column: 2 / span 2; }
+  .countries-grid .country-card:nth-child(5) { grid-column: 4 / span 2; }
+}
+.country-card {
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.country-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,.1);
+}
+.country-flag-wrap {
+  background: linear-gradient(135deg, var(--navy) 0%, #243557 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 0;
+}
+.country-flag-emoji {
+  font-size: 52px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
+}
+.country-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+}
+.country-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: var(--navy);
+  letter-spacing: .04em;
+  margin: 0;
+}
+.country-currency {
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.country-currency strong {
+  color: var(--navy);
+}
+.country-bundles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.country-bundle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 8px 10px;
+  background: var(--off-white);
+  border-radius: 6px;
+}
+.country-bundle-name {
+  color: #444;
+  font-weight: 500;
+}
+.country-bundle-price {
+  font-weight: 700;
+  color: var(--navy);
+  white-space: nowrap;
+  margin-left: 8px;
+}
+.btn-country {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 11px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+.btn-country:hover {
+  background: var(--red);
+  transform: translateY(-1px);
+}
+
+/* Country grid responsive */
+@media (max-width: 900px) {
+  /* 4-col subgrid: each card spans 2 cols = 2 per row */
+  .countries-grid { grid-template-columns: repeat(4, 1fr); }
+  .countries-grid .country-card { grid-column: span 2; }
+  /* 5th card centred on its own row */
+  .countries-grid .country-card:nth-child(4),
+  .countries-grid .country-card:nth-child(5) { grid-column: span 2; }
+  .countries-grid .country-card:nth-child(5) { grid-column: 2 / span 2; }
+}
+@media (max-width: 480px) {
+  .countries { padding: 56px 0; }
+  .countries-grid { grid-template-columns: 1fr; }
+  .countries-grid .country-card,
+  .countries-grid .country-card:nth-child(4),
+  .countries-grid .country-card:nth-child(5) { grid-column: span 1; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUNDLE AVAILABILITY BADGE  (v1.5.0)
+═══════════════════════════════════════════════════════ */
+.bundle-availability {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(27,45,79,.05);
+  border-left: 3px solid var(--navy);
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 4px;
+}
+.avail-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #888;
+  font-weight: 600;
+}
+.avail-flags {
+  font-size: 12px;
+  color: var(--navy);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUNDLE CURRENCY LABEL  (v1.5.0)
+═══════════════════════════════════════════════════════ */
+.bundle-currency {
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+.bundle-price-note {
+  display: block;
+  font-size: 11px;
+  color: #888;
+  margin-top: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUNDLE EXPAND / COLLAPSE  (v1.5.0)
+═══════════════════════════════════════════════════════ */
+.bundle-expand {
+  margin: 8px 0 4px;
+}
+.bundle-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid rgba(27,45,79,.2);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.bundle-expand-btn:hover {
+  background: rgba(27,45,79,.05);
+  border-color: var(--navy);
+}
+.expand-chevron {
+  transition: transform .2s ease;
+}
+.bundle-full-list {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: var(--off-white);
+  border-radius: var(--radius-sm);
+}
+.bundle-full-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
+.bundle-full-list li {
+  font-size: 13px;
+  color: #444;
+  padding-left: 14px;
+  position: relative;
+}
+.bundle-full-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 11px;
+}
+@media (max-width: 480px) {
+  .bundle-full-list ul { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER COMPLIANCE NOTICE  (v1.5.0)
+═══════════════════════════════════════════════════════ */
+.footer-compliance {
+  background: #060d1f;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding: 14px 0;
+  text-align: center;
+}
+.footer-compliance-text {
+  font-size: 11px;
+  color: rgba(255,255,255,.4);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+}

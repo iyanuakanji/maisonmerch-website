@@ -107,6 +107,12 @@
     </div>
   </div>
 
+  <div class="footer-compliance">
+    <div class="container">
+      <p class="footer-compliance-text">Unlicensed fan merchandise. Not affiliated with FIFA, any national soccer federation, or any official tournament organisation. All trademarks belong to their respective owners.</p>
+    </div>
+  </div>
+
   <div class="footer-bottom">
     <div class="container">
       <div class="footer-bottom-inner">
