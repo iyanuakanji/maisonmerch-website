@@ -126,4 +126,325 @@
     </div>
   </div>
 </footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     EMAIL MARKETING MODAL
+     Shows once per 30 days · triggers after 4 seconds
+═══════════════════════════════════════════════════════ -->
+<div class="mm-modal-overlay" id="mmModalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="mmModalTitle">
+  <div class="mm-modal" id="mmModal">
+
+    <!-- Close button -->
+    <button class="mm-modal-close" id="mmModalClose" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <!-- Default state -->
+    <div class="mm-modal-body" id="mmModalBody">
+      <div class="mm-modal-flag-row">
+        <span>🇺🇸</span><span>🇨🇦</span><span>🇲🇽</span><span>🇧🇷</span><span>🇦🇷</span>
+      </div>
+      <div class="mm-modal-badge">Fan Exclusive</div>
+      <h2 class="mm-modal-title" id="mmModalTitle">Game Day Is Coming.</h2>
+      <p class="mm-modal-sub">Be the first to know about new bundle drops, match-day deals, and fan-only offers across all 5 countries.</p>
+
+      <form class="mm-modal-form" id="mmModalForm" novalidate>
+        <div class="mm-input-wrap">
+          <input
+            type="email"
+            id="mmEmail"
+            name="email"
+            class="mm-input"
+            placeholder="Your email address"
+            autocomplete="email"
+            required
+            aria-label="Email address"
+          />
+          <button type="submit" class="mm-submit-btn">
+            Notify Me
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+        <p class="mm-error" id="mmError" role="alert" hidden>Please enter a valid email address.</p>
+      </form>
+
+      <button class="mm-modal-dismiss" id="mmModalDismiss">No thanks, I'll miss out</button>
+      <p class="mm-modal-fine">No spam, ever. Unsubscribe any time.</p>
+    </div>
+
+    <!-- Success state -->
+    <div class="mm-modal-success" id="mmModalSuccess" hidden>
+      <div class="mm-success-icon">🎉</div>
+      <h2 class="mm-modal-title">You're In!</h2>
+      <p class="mm-modal-sub">We'll send you early access to new drops and exclusive match-day deals. See you on the pitch.</p>
+      <button class="btn btn-primary" id="mmSuccessClose" style="margin-top:24px;width:100%;justify-content:center">
+        Let's Go
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ── Modal overlay ── */
+.mm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 13, 31, 0.72);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+  backdrop-filter: blur(4px);
+}
+.mm-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Modal box ── */
+.mm-modal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 460px;
+  width: 100%;
+  padding: 40px 36px 32px;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  transform: translateY(20px) scale(.97);
+  transition: transform .35s cubic-bezier(.22,.68,0,1.2);
+  /* Accent bar at top */
+  border-top: 5px solid var(--red, #E63946);
+}
+.mm-modal-overlay.is-open .mm-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* ── Close button ── */
+.mm-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(27,45,79,.07);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--navy, #1B2D4F);
+  transition: background .15s;
+}
+.mm-modal-close:hover { background: rgba(27,45,79,.15); }
+
+/* ── Flag row ── */
+.mm-modal-flag-row {
+  display: flex;
+  gap: 8px;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+/* ── Badge ── */
+.mm-modal-badge {
+  display: inline-block;
+  background: rgba(230,57,70,.1);
+  color: var(--red, #E63946);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+
+/* ── Title & body copy ── */
+.mm-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.1rem;
+  color: var(--navy, #1B2D4F);
+  letter-spacing: .04em;
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+.mm-modal-sub {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* ── Form ── */
+.mm-modal-form { margin-bottom: 0; }
+.mm-input-wrap {
+  display: flex;
+  gap: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid rgba(27,45,79,.18);
+  transition: border-color .2s;
+}
+.mm-input-wrap:focus-within {
+  border-color: var(--navy, #1B2D4F);
+}
+.mm-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 13px 16px;
+  font-size: 14px;
+  color: #222;
+  background: #fff;
+  font-family: inherit;
+}
+.mm-input::placeholder { color: #aaa; }
+.mm-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy, #1B2D4F);
+  color: #fff;
+  border: none;
+  padding: 13px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s;
+  letter-spacing: .02em;
+}
+.mm-submit-btn:hover { background: var(--red, #E63946); }
+
+/* ── Validation error ── */
+.mm-error {
+  font-size: 12px;
+  color: var(--red, #E63946);
+  margin-top: 8px;
+}
+
+/* ── Dismiss link ── */
+.mm-modal-dismiss {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 16px;
+  text-align: center;
+  transition: color .15s;
+}
+.mm-modal-dismiss:hover { color: #666; }
+
+/* ── Fine print ── */
+.mm-modal-fine {
+  font-size: 11px;
+  color: #bbb;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ── Success state ── */
+.mm-modal-success { text-align: center; }
+.mm-success-icon { font-size: 48px; margin-bottom: 16px; }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .mm-modal { padding: 32px 20px 28px; }
+  .mm-modal-title { font-size: 1.75rem; }
+  .mm-input-wrap { flex-direction: column; border-radius: 8px; }
+  .mm-submit-btn { justify-content: center; border-radius: 0 0 6px 6px; padding: 14px; }
+  .mm-input { border-radius: 6px 6px 0 0; }
+}
+</style>
+
+<script>
+(function(){
+  var COOKIE_KEY = 'mm_modal_seen';
+  var EXPIRY_DAYS = 30;
+  var overlay  = document.getElementById('mmModalOverlay');
+  var closeBtn = document.getElementById('mmModalClose');
+  var dismiss  = document.getElementById('mmModalDismiss');
+  var form     = document.getElementById('mmModalForm');
+  var errorEl  = document.getElementById('mmError');
+  var body     = document.getElementById('mmModalBody');
+  var success  = document.getElementById('mmModalSuccess');
+  var succClose= document.getElementById('mmSuccessClose');
+
+  /* ── Cookie helpers ── */
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+  }
+  function setCookie(name, value, days) {
+    var exp = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + exp + '; path=/; SameSite=Lax';
+  }
+
+  /* ── Show / hide ── */
+  function openModal() {
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    setCookie(COOKIE_KEY, '1', EXPIRY_DAYS);
+  }
+
+  /* ── Trigger ── */
+  if (!getCookie(COOKIE_KEY)) {
+    setTimeout(openModal, 4000);
+  }
+
+  /* ── Close actions ── */
+  closeBtn.addEventListener('click', closeModal);
+  dismiss.addEventListener('click',  closeModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ── Form submission ── */
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('mmEmail').value.trim();
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) {
+      errorEl.hidden = false;
+      return;
+    }
+    errorEl.hidden = true;
+    /* TODO: POST email to your ESP endpoint here */
+    /* e.g. fetch('/api/subscribe', { method:'POST', body: JSON.stringify({email}) }) */
+    body.hidden    = true;
+    success.hidden = false;
+    setCookie(COOKIE_KEY, '1', EXPIRY_DAYS);
+  });
+  document.getElementById('mmEmail').addEventListener('input', function(){
+    errorEl.hidden = true;
+  });
+
+  /* ── Success close ── */
+  succClose.addEventListener('click', closeModal);
+})();
+</script>
 <!-- /wp:html -->
