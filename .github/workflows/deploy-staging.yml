@@ -6,39 +6,18 @@ on:
       - staging
 
 jobs:
-  deploy-staging:
-    name: SSH Deploy to Staging (staging.maisonmerch.ca)
+  notify:
+    name: Trigger Staging Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy via SSH — server pulls latest theme from GitHub
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key:      ${{ secrets.SSH_PRIVATE_KEY }}
-          port:     22
-          script: |
-            set -e
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            REPO_DIR="$HOME/maisonmerch-website"
-            THEME_SRC="$REPO_DIR/theme/twentytwentyfive"
-            THEME_DEST="$HOME/public_html/staging.maisonmerch.ca/wp-content/themes/twentytwentyfive"
-
-            # Clone repo if not present, otherwise pull latest
-            if [ -d "$REPO_DIR/.git" ]; then
-              cd "$REPO_DIR"
-              git fetch origin
-              git checkout staging
-              git pull origin staging
-            else
-              git clone https://${{ secrets.GH_PAT }}@github.com/iyanuakanji/maisonmerch-website.git "$REPO_DIR"
-              cd "$REPO_DIR"
-              git checkout staging
-            fi
-
-            # Copy theme files to WordPress staging directory
-            mkdir -p "$THEME_DEST"
-            cp -r "$THEME_SRC/." "$THEME_DEST/"
-
-            echo "✅ Deploy complete — staging.maisonmerch.ca updated"
+      - name: Confirm deploy triggered
+        run: |
+          echo "✅ Push to staging branch detected."
+          echo "📦 Deployer for Git webhook will automatically sync files to staging.maisonmerch.ca"
+          echo "Commit: ${{ github.sha }}"
+          echo "By: ${{ github.actor }}"
+          echo "Message: ${{ github.event.head_commit.message }}"

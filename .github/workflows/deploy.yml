@@ -1,4 +1,4 @@
-name: 🚀 Deploy to GoDaddy
+name: 🚀 Deploy to GoDaddy site
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
           password:   ${{ secrets.FTP_PASSWORD }}
           port:       ${{ secrets.FTP_PORT }}
           protocol:   ftp
-          local-dir:  ./theme/
+          local-dir:  ./
           server-dir: ${{ secrets.FTP_THEME_PATH }}
           exclude: |
             **/.git*
@@ -32,7 +32,13 @@ jobs:
             **/node_modules/**
             .github/**
             scripts/**
+            theme/**
             README.md
+            readme.txt
+            contributing.txt
+            package.json
+            package-lock.json
+            screenshot.png
 
       - name: Notify on success
         if: success()

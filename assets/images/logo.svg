@@ -1,0 +1,57 @@
+<svg viewBox="0 0 240 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maison Merch">
+  <title>Maison Merch</title>
+  <defs>
+    <!-- Bag body clip path -->
+    <clipPath id="bagBody">
+      <path d="M 35,68 Q 22,68 22,81 L 22,248 Q 22,261 35,261 L 205,261 Q 218,261 218,248 L 218,81 Q 218,68 205,68 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- ─── Bag body background (dark navy) ─── -->
+  <path d="M 35,68 Q 22,68 22,81 L 22,248 Q 22,261 35,261 L 205,261 Q 218,261 218,248 L 218,81 Q 218,68 205,68 Z"
+        fill="#0D1421"/>
+
+  <!-- ─── Colour blobs (clipped to bag body) ─── -->
+
+  <!-- Sky blue — top left -->
+  <ellipse cx="30" cy="80" rx="78" ry="68" fill="#3BAEE8" clip-path="url(#bagBody)"/>
+
+  <!-- Bright red — top right -->
+  <ellipse cx="210" cy="84" rx="84" ry="76" fill="#E63946" clip-path="url(#bagBody)"/>
+
+  <!-- Cobalt blue — left centre, creates wave against sky blue -->
+  <ellipse cx="18" cy="160" rx="70" ry="82" fill="#1B5CB0" clip-path="url(#bagBody)"/>
+
+  <!-- Bright green — bottom centre -->
+  <ellipse cx="100" cy="267" rx="82" ry="58" fill="#27AE60" clip-path="url(#bagBody)"/>
+
+  <!-- Yellow / gold — bottom right -->
+  <ellipse cx="214" cy="256" rx="72" ry="58" fill="#F5C842" clip-path="url(#bagBody)"/>
+
+  <!-- ─── Bag outline ring (draws over blobs, outside of clip, for border effect) ─── -->
+  <!-- Thin border so the bag shape reads clearly on any background -->
+  <path d="M 35,68 Q 22,68 22,81 L 22,248 Q 22,261 35,261 L 205,261 Q 218,261 218,248 L 218,81 Q 218,68 205,68 Z"
+        fill="none" stroke="#0D1421" stroke-width="3"/>
+
+  <!-- ─── MAISON MERCH text ─── -->
+  <text x="120" y="162"
+        font-family="'Arial Black','Impact','Helvetica Neue',Arial,sans-serif"
+        font-size="42" font-weight="900"
+        text-anchor="middle"
+        fill="#ffffff"
+        letter-spacing="-1">MAISON</text>
+  <text x="120" y="210"
+        font-family="'Arial Black','Impact','Helvetica Neue',Arial,sans-serif"
+        font-size="42" font-weight="900"
+        text-anchor="middle"
+        fill="#ffffff"
+        letter-spacing="-1">MERCH</text>
+
+  <!-- ─── Handle (drawn last, sits on top) ─── -->
+  <!-- The handle arch emerges from the top of the bag body -->
+  <path d="M 82,68 C 82,24 158,24 158,68"
+        fill="none"
+        stroke="#0D1421"
+        stroke-width="20"
+        stroke-linecap="round"/>
+</svg>
