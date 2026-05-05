@@ -2657,3 +2657,109 @@ footer {
   max-width: 700px;
   margin: 0 auto;
 }
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT US — OPTIMISED LAYOUT  (v1.6.0)
+═══════════════════════════════════════════════════════ */
+
+/* Compact hero — less tall */
+.about-hero--compact { min-height: 280px; padding: 56px 0; }
+
+/* ── Combined story + stats ── */
+.about-combined { padding: 64px 0; background: #fff; }
+.about-combined-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.about-combined-left h2 { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; color:var(--navy); margin:12px 0 16px; }
+.about-combined-left h2 em { color:var(--red); font-style:normal; }
+.about-combined-left p { font-size:15px; color:#444; line-height:1.75; margin-bottom:14px; }
+
+/* Inline essence chips */
+.about-essence-inline { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+
+/* Compact stats 2×2 */
+.about-stats-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.about-stat-c {
+  background: var(--navy);
+  color: #fff;
+  padding: 24px 20px;
+  text-align: center;
+}
+.about-stat-c .about-stat-num { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:var(--yellow); line-height:1; }
+.about-stat-c .about-stat-label { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.7); margin-top:4px; }
+
+/* Compact quote */
+.about-quote-compact {
+  background: var(--off-white);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+}
+.about-quote-compact .about-quote-mark { font-size:3rem; color:var(--red); line-height:.8; font-family:'Bebas Neue',sans-serif; margin-bottom:8px; }
+.about-quote-compact blockquote { font-size:14px; color:#444; line-height:1.7; font-style:italic; margin:0 0 12px; }
+.about-quote-compact cite { font-size:12px; color:#888; font-style:normal; font-weight:600; }
+
+/* ── Compact values 4-col ── */
+.about-values-compact { padding: 48px 0; background: var(--off-white); }
+.about-values-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.avc-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.avc-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.avc-icon svg { width: 20px; height: 20px; }
+.avc-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.avc-card p  { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
+
+/* ── Closing section (contact + CTA merged) ── */
+.about-closing { padding: 64px 0; background: #fff; }
+.about-closing-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.about-closing-contact h2,
+.about-closing-cta h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--navy); margin:12px 0 16px; }
+.about-closing-cta p { font-size:15px; color:#555; line-height:1.7; }
+.about-contact-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:14px; }
+.about-contact-list li { display:flex; align-items:center; gap:10px; font-size:14px; color:#444; }
+.about-contact-list a { color:var(--navy); font-weight:600; text-decoration:none; }
+.about-contact-list a:hover { color:var(--red); }
+.about-contact-list svg { flex-shrink:0; color:var(--navy); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .about-combined-inner,
+  .about-closing-inner { grid-template-columns: 1fr; gap: 40px; }
+  .about-values-compact-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-hero--compact { padding: 44px 0; }
+}
+@media (max-width: 480px) {
+  .about-combined { padding: 48px 0; }
+  .about-values-compact { padding: 36px 0; }
+  .about-closing { padding: 48px 0; }
+  .about-values-compact-grid { grid-template-columns: 1fr; }
+  .about-stats-compact { grid-template-columns: 1fr 1fr; }
+}
