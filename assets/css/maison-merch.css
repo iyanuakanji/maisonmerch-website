@@ -423,7 +423,7 @@ ul { list-style: none; }
   background: rgba(246,200,66,.12);
   border: 1px solid rgba(246,200,66,.3);
   color: var(--yellow);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: .03em;
   padding: 7px 14px;
@@ -2364,7 +2364,7 @@ footer {
   .hero-card-price { font-size: 18px; }
   .hero-stat-divider { display: none; }
   .hero-stats { gap: 16px; flex-wrap: wrap; }
-  .hero-urgency { font-size: 11px; padding: 6px 12px; text-align: center; }
+  .hero-urgency { font-size: 13px; padding: 6px 12px; text-align: center; }
 
   /* Bundles */
   .bundles-grid { max-width: 100%; }
