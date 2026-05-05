@@ -54,7 +54,7 @@
 
       <div class="nav-actions">
         <div class="nav-divider"></div>
-        <button class="nav-icon-btn" aria-label="Search">
+        <button class="nav-icon-btn" aria-label="Search" id="searchToggle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
@@ -123,6 +123,143 @@
   close.addEventListener('click', shut);
   overlay.addEventListener('click', shut);
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', shut));
+})();
+</script>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-overlay-inner">
+    <form class="search-overlay-form" role="search" method="get" action="/">
+      <input
+        type="search"
+        name="s"
+        id="searchInput"
+        class="search-overlay-input"
+        placeholder="Search the site…"
+        autocomplete="off"
+        aria-label="Search"
+      />
+      <button type="submit" class="search-overlay-btn" aria-label="Submit search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+    <button class="search-overlay-close" id="searchClose" aria-label="Close search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+      Close
+    </button>
+  </div>
+</div>
+
+<style>
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6,13,31,.92);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+  backdrop-filter: blur(6px);
+}
+.search-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.search-overlay-inner {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.search-overlay-form {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+}
+.search-overlay-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 18px 22px;
+  font-size: 18px;
+  font-family: inherit;
+  color: #111;
+  background: #fff;
+}
+.search-overlay-input::placeholder { color: #aaa; }
+.search-overlay-btn {
+  background: var(--red, #E63946);
+  border: none;
+  padding: 0 24px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background .15s;
+}
+.search-overlay-btn:hover { background: #c0303c; }
+.search-overlay-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.7);
+  font-size: 13px;
+  font-family: inherit;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .15s, color .15s;
+}
+.search-overlay-close:hover {
+  border-color: rgba(255,255,255,.6);
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .search-overlay-input { font-size: 15px; padding: 15px 16px; }
+}
+</style>
+
+<script>
+(function(){
+  var searchToggle  = document.getElementById('searchToggle');
+  var searchOverlay = document.getElementById('searchOverlay');
+  var searchClose   = document.getElementById('searchClose');
+  var searchInput   = document.getElementById('searchInput');
+
+  function openSearch() {
+    searchOverlay.classList.add('is-open');
+    searchOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ searchInput.focus(); }, 50);
+  }
+  function closeSearch() {
+    searchOverlay.classList.remove('is-open');
+    searchOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  searchToggle.addEventListener('click', openSearch);
+  searchClose.addEventListener('click', closeSearch);
+  searchOverlay.addEventListener('click', function(e){
+    if (e.target === searchOverlay) closeSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeSearch();
+  });
 })();
 </script>
 <!-- /wp:html -->
