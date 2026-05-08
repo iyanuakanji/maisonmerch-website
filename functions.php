@@ -184,6 +184,13 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 	}
 endif;
 
+// ─── Maison Merch: Favicon ───────────────────────────────────────────────────
+add_action( 'wp_head', function() {
+	$logo = home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' );
+	echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $logo ) . '">' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . esc_url( $logo ) . '">' . "\n";
+} );
+
 // ─── Maison Merch: Override document title ───────────────────────────────────
 add_filter( 'document_title_parts', function( $title ) {
 	$title['site'] = 'Maison Merch';
