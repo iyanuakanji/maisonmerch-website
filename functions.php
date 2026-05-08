@@ -186,7 +186,12 @@ endif;
 
 // ─── Maison Merch: Favicon ───────────────────────────────────────────────────
 add_action( 'wp_head', function() {
-	$logo = home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' );
+	// Use staging logo on staging, production logo on production
+	if ( strpos( home_url(), 'staging' ) !== false ) {
+		$logo = home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' );
+	} else {
+		$logo = home_url( '/wp-content/uploads/2026/05/logo-maison-merch3-scaled.png' );
+	}
 	echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $logo ) . '">' . "\n";
 	echo '<link rel="apple-touch-icon" href="' . esc_url( $logo ) . '">' . "\n";
 } );
