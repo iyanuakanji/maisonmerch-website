@@ -184,6 +184,31 @@ if ( ! function_exists( 'twentytwentyfive_format_binding' ) ) :
 	}
 endif;
 
+// ─── Maison Merch: One-time DB migration — replace old Amazon shortlink ──────
+add_action( 'init', function() {
+	if ( get_option( 'mm_amazon_link_fixed_v1' ) === '1' ) {
+		return; // Already done — skip on every subsequent request
+	}
+	global $wpdb;
+	$old = 'https://shorturl.at/nRAyn';
+	$new = 'https://www.amazon.com/s?me=AYHCG6KQCHSKS';
+	// Replace in all posts/pages/templates (covers wp_template, wp_template_part, pages, etc.)
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, %s, %s)
+		 WHERE post_content LIKE %s",
+		$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+	) );
+	// Replace in postmeta as well
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->postmeta}
+		 SET meta_value = REPLACE(meta_value, %s, %s)
+		 WHERE meta_value LIKE %s",
+		$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+	) );
+	update_option( 'mm_amazon_link_fixed_v1', '1' );
+} );
+
 // ─── Maison Merch: Favicon ───────────────────────────────────────────────────
 add_action( 'wp_head', function() {
 	// Use staging logo on staging, production logo on production
