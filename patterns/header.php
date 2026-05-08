@@ -45,7 +45,7 @@
       </a>
 
       <div class="nav-links">
-        <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer">Shop</a>
+        <a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS" target="_blank" rel="noopener noreferrer">Shop</a>
         <a href="#bundles">Bundles</a>
         <a href="/about-us">About Us</a>
         <a href="/faq">FAQ</a>
@@ -59,7 +59,7 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-shop-btn">Shop Now</a>
+        <a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-shop-btn">Shop Now</a>
         <!-- Hamburger — mobile only -->
         <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -79,14 +79,14 @@
     <button class="mobile-menu-close" aria-label="Close menu">&times;</button>
   </div>
   <nav class="mobile-menu-nav">
-    <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer">Shop</a>
+    <a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS" target="_blank" rel="noopener noreferrer">Shop</a>
     <a href="#bundles">Bundles</a>
     <a href="/about-us">About Us</a>
     <a href="/faq">FAQ</a>
     <a href="/contact">Contact Us</a>
   </nav>
   <div class="mobile-menu-footer">
-    <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
+    <a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
     <div class="mobile-menu-trust">
       <span><span class="trust-dot"></span> Free shipping over $75</span>
       <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
