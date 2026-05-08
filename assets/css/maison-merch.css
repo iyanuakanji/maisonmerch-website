@@ -318,7 +318,7 @@ ul { list-style: none; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('/wp-content/uploads/2026/04/Hero_background.png');
+  background-image: url('http://staging.maisonmerch.ca/wp-content/uploads/2026/04/Hero_background.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

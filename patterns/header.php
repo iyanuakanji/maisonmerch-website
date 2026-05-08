@@ -12,12 +12,6 @@
  */
 ?>
 <!-- wp:html -->
-<?php
-/* Logo URL — environment-aware (same logic as favicon in functions.php) */
-$_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
-    ? home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' )
-    : home_url( '/wp-content/uploads/2026/05/logo-maison-merch3-scaled.png' );
-?>
 <div class="utility-bar">
   <div class="container">
     <div class="utility-contacts">
@@ -46,7 +40,7 @@ $_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
   <div class="container">
     <div class="nav-inner">
       <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
-        <img src="<?php echo esc_url( $_mm_logo ); ?>"
+        <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
              alt="" class="nav-logo-img" width="56" height="60" loading="eager">
       </a>
 
@@ -79,7 +73,7 @@ $_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-header">
     <a href="/" class="nav-logo" aria-label="Maison Merch">
-      <img src="<?php echo esc_url( $_mm_logo ); ?>"
+      <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
            alt="" class="nav-logo-img" width="44" height="48" loading="eager">
     </a>
     <button class="mobile-menu-close" aria-label="Close menu">&times;</button>

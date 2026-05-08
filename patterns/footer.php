@@ -12,12 +12,6 @@
  */
 ?>
 <!-- wp:html -->
-<?php
-/* Logo URL — environment-aware */
-$_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
-    ? home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' )
-    : home_url( '/wp-content/uploads/2026/05/logo-maison-merch3-scaled.png' );
-?>
 <footer>
   <div class="footer-top">
     <div class="container">
@@ -26,7 +20,7 @@ $_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
         <div class="footer-brand">
           <div class="footer-logo" style="align-items:flex-start">
             <div class="footer-logo-icon">
-              <img src="<?php echo esc_url( $_mm_logo ); ?>"
+              <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
      alt="Maison Merch" class="nav-logo-img" width="62" height="66" loading="eager">
             </div>
           </div>
