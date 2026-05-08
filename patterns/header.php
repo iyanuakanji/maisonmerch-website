@@ -12,6 +12,12 @@
  */
 ?>
 <!-- wp:html -->
+<?php
+/* Logo URL — environment-aware (same logic as favicon in functions.php) */
+$_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
+    ? home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' )
+    : home_url( '/wp-content/uploads/2026/05/logo-maison-merch3-scaled.png' );
+?>
 <div class="utility-bar">
   <div class="container">
     <div class="utility-contacts">
@@ -31,7 +37,7 @@
     <div class="utility-trust">
       <span><span class="trust-dot"></span> Free shipping over $75 CAD</span>
       <span><span class="trust-dot"></span> 100% eco-friendly products</span>
-      <span><span class="trust-dot"></span> Ships Canada &amp; USA</span>
+      <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
     </div>
   </div>
 </div>
@@ -40,7 +46,7 @@
   <div class="container">
     <div class="nav-inner">
       <a href="/" class="nav-logo" aria-label="Maison Merch — Home">
-        <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
+        <img src="<?php echo esc_url( $_mm_logo ); ?>"
              alt="" class="nav-logo-img" width="56" height="60" loading="eager">
       </a>
 
@@ -59,12 +65,6 @@
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </button>
-        <button class="nav-icon-btn" aria-label="Shopping cart">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-          </svg>
-        </button>
         <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-shop-btn">Shop Now</a>
         <!-- Hamburger — mobile only -->
         <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
@@ -79,7 +79,7 @@
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-header">
     <a href="/" class="nav-logo" aria-label="Maison Merch">
-      <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
+      <img src="<?php echo esc_url( $_mm_logo ); ?>"
            alt="" class="nav-logo-img" width="44" height="48" loading="eager">
     </a>
     <button class="mobile-menu-close" aria-label="Close menu">&times;</button>
@@ -95,7 +95,7 @@
     <a href="https://shorturl.at/nRAyn" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
     <div class="mobile-menu-trust">
       <span><span class="trust-dot"></span> Free shipping over $75</span>
-      <span><span class="trust-dot"></span> Ships Canada &amp; USA</span>
+      <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
     </div>
   </div>
 </div>

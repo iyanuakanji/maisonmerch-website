@@ -12,6 +12,12 @@
  */
 ?>
 <!-- wp:html -->
+<?php
+/* Logo URL — environment-aware */
+$_mm_logo = ( strpos( home_url(), 'staging' ) !== false )
+    ? home_url( '/wp-content/uploads/2026/04/logo-maison-merch3.png' )
+    : home_url( '/wp-content/uploads/2026/05/logo-maison-merch3-scaled.png' );
+?>
 <footer>
   <div class="footer-top">
     <div class="container">
@@ -20,7 +26,7 @@
         <div class="footer-brand">
           <div class="footer-logo" style="align-items:flex-start">
             <div class="footer-logo-icon">
-              <img src="https://staging.maisonmerch.ca/wp-content/uploads/2026/04/logo-maison-merch3.png"
+              <img src="<?php echo esc_url( $_mm_logo ); ?>"
      alt="Maison Merch" class="nav-logo-img" width="62" height="66" loading="eager">
             </div>
           </div>
@@ -75,10 +81,12 @@
         <div class="footer-col footer-newsletter">
           <h4>Stay in the Loop</h4>
           <p>Get early access to new drops, exclusive deals, and game-day inspiration.</p>
-          <div class="newsletter-form">
-            <input class="newsletter-input" type="email" placeholder="Your email address" aria-label="Email address" />
-            <button class="newsletter-btn">Go</button>
-          </div>
+          <form class="newsletter-form" id="footerNewsletterForm" novalidate>
+            <input class="newsletter-input" id="footerEmail" type="email" placeholder="Your email address" aria-label="Email address" autocomplete="email" required />
+            <button class="newsletter-btn" type="submit">Go</button>
+          </form>
+          <p class="newsletter-feedback" id="footerNewsletterSuccess" hidden style="font-size:13px;color:#a8e6c4;margin-top:8px;font-weight:600;">✓ You're on the list!</p>
+          <p class="newsletter-feedback" id="footerNewsletterError" hidden style="font-size:12px;color:#f08080;margin-top:6px;">Please enter a valid email address.</p>
           <div class="footer-trust-chips">
             <div class="trust-chip">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -91,7 +99,7 @@
                 <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
                 <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
               </svg>
-              Free Returns
+              Amazon Returns
             </div>
             <div class="trust-chip">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -126,6 +134,35 @@
     </div>
   </div>
 </footer>
+
+<script>
+/* ── Footer newsletter form handler ── */
+(function(){
+  var form    = document.getElementById('footerNewsletterForm');
+  var success = document.getElementById('footerNewsletterSuccess');
+  var error   = document.getElementById('footerNewsletterError');
+  if (!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('footerEmail').value.trim();
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) {
+      error.hidden   = false;
+      success.hidden = true;
+      return;
+    }
+    error.hidden = true;
+    /* TODO: POST to your ESP endpoint here — e.g.
+       fetch('/api/subscribe', { method:'POST', body: JSON.stringify({email}),
+         headers:{'Content-Type':'application/json'} }) */
+    form.hidden    = true;
+    success.hidden = false;
+  });
+  document.getElementById('footerEmail').addEventListener('input', function(){
+    error.hidden = true;
+  });
+})();
+</script>
 
 <!-- ═══════════════════════════════════════════════════════
      EMAIL MARKETING MODAL
