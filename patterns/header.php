@@ -29,9 +29,7 @@
       </a>
     </div>
     <div class="utility-trust">
-      <span><span class="trust-dot"></span> Free shipping over $75 CAD</span>
       <span><span class="trust-dot"></span> 100% eco-friendly products</span>
-      <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
     </div>
   </div>
 </div>
@@ -87,10 +85,6 @@
   </nav>
   <div class="mobile-menu-footer">
     <a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width:100%;justify-content:center">Shop Now</a>
-    <div class="mobile-menu-trust">
-      <span><span class="trust-dot"></span> Free shipping over $75</span>
-      <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
-    </div>
   </div>
 </div>
 <div class="mobile-menu-overlay" id="mobileOverlay"></div>
