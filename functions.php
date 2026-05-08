@@ -209,6 +209,37 @@ add_action( 'init', function() {
 	update_option( 'mm_amazon_link_fixed_v1', '1' );
 } );
 
+// ─── Maison Merch: One-time DB migration — remove utility bar trust items ─────
+add_action( 'init', function() {
+	if ( get_option( 'mm_header_trust_removed_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+
+	// Each string to strip from stored templates (desktop + mobile variations)
+	$remove = array(
+		'<span><span class="trust-dot"></span> Free shipping over $75 CAD</span>',
+		'<span><span class="trust-dot"></span> Free shipping over $75</span>',
+		'<span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>',
+		// Also remove the now-empty mobile trust wrapper
+		'<div class="mobile-menu-trust">
+      <span><span class="trust-dot"></span> Free shipping over $75</span>
+      <span><span class="trust-dot"></span> Ships to 5 countries via Amazon</span>
+    </div>',
+	);
+
+	foreach ( $remove as $str ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, '')
+			 WHERE post_content LIKE %s",
+			$str, '%' . $wpdb->esc_like( $str ) . '%'
+		) );
+	}
+
+	update_option( 'mm_header_trust_removed_v1', '1' );
+} );
+
 // ─── Maison Merch: Favicon ───────────────────────────────────────────────────
 add_action( 'wp_head', function() {
 	// Use staging logo on staging, production logo on production
