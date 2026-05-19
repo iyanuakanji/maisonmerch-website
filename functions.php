@@ -221,7 +221,7 @@ add_action( 'init', function() {
 		// Bundle price note (both &nbsp; and plain space variants)
 		'&nbsp;·&nbsp; Free shipping over $75'                        => '',
 		// Urgency bar
-		'THE TOURNAMENT IS COMING, ORDER NOW TO RECEIVE IN TIME!'     => 'FIFA WORLD CUP 2026 KICKS OFF SOON — ORDER NOW &amp; ARRIVE GAME-READY!',
+		'THE TOURNAMENT IS COMING, ORDER NOW TO RECEIVE IN TIME!'     => 'FIFA WORLD CUP 2026 KICKS OFF SOON. ORDER NOW &amp; ARRIVE GAME-READY!',
 	);
 	foreach ( $replacements as $old => $new ) {
 		$wpdb->query( $wpdb->prepare(
@@ -232,6 +232,30 @@ add_action( 'init', function() {
 		) );
 	}
 	update_option( 'mm_copy_update_v1', '1' );
+} );
+
+// ─── Maison Merch: One-time DB migration — urgency bar text v2 ───────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_urgency_v2' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	// Update both the dash variant (from previous migration) and the original
+	$old_variants = array(
+		'FIFA WORLD CUP 2026 KICKS OFF SOON — ORDER NOW &amp; ARRIVE GAME-READY!',
+		'FIFA WORLD CUP 2026 KICKS OFF SOON — ORDER NOW & ARRIVE GAME-READY!',
+		'THE TOURNAMENT IS COMING, ORDER NOW TO RECEIVE IN TIME!',
+	);
+	$new = 'FIFA WORLD CUP 2026 KICKS OFF SOON. ORDER NOW &amp; ARRIVE GAME-READY!';
+	foreach ( $old_variants as $old ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+	update_option( 'mm_urgency_v2', '1' );
 } );
 
 // ─── Maison Merch: One-time DB migration — remove utility bar trust items ─────
