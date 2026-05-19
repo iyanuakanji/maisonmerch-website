@@ -1,7 +1,7 @@
 
 /* ─── Reset & Base ────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   font-family: 'Inter', sans-serif;
   background: #ffffff;
@@ -2359,7 +2359,8 @@ footer {
 
   /* Hero */
   .hero { padding: 0; }
-  .hero-inner { padding: 40px 0 36px; gap: 36px; }
+  .hero-inner { padding: 40px 0 36px; gap: 20px; }
+  .hero-desc { font-size: 14px; max-width: 100%; }
   .hero-product-stack { width: 340px; height: 310px; }
   .hero-card-main,
   .hero-card-back { width: 190px; }
@@ -2368,7 +2369,28 @@ footer {
   .hero-card-price { font-size: 18px; }
   .hero-stat-divider { display: none; }
   .hero-stats { gap: 16px; flex-wrap: wrap; }
-  .hero-urgency { font-size: 12px; padding: 6px 12px; text-align: center; }
+  /* Urgency: allow wrapping instead of clipping on small screens */
+  .hero-urgency {
+    white-space: normal;
+    font-size: 11px;
+    padding: 8px 14px;
+    line-height: 1.4;
+    text-align: center;
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+  }
+  /* Trust row: wrap so stars + text stay contained */
+  .hero-trust-row { flex-wrap: wrap; gap: 4px 8px; justify-content: center; }
+  .hero-trust-text { font-size: 11px; }
+  /* CTAs: stack vertically so button doesn't push "Our Story" off screen */
+  .hero-ctas { flex-direction: column; align-items: stretch; gap: 10px; }
+  .hero-ctas .btn { justify-content: center; }
+  .hero-text-link { text-align: center; }
+  /* Eyebrow: centre and wrap on tiny screens */
+  .hero-eyebrow { flex-wrap: wrap; justify-content: center; gap: 8px; }
+  /* Hide decorative product stack on mobile — content is more important */
+  .hero-visual { display: none; }
   .hero-scroll-cue { display: none; }
 
   /* Bundles */
