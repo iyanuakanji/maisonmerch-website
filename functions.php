@@ -209,6 +209,31 @@ add_action( 'init', function() {
 	update_option( 'mm_amazon_link_fixed_v1', '1' );
 } );
 
+// ─── Maison Merch: One-time DB migration — trust strip + urgency copy ────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_copy_update_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$replacements = array(
+		// Trust strip
+		'Free Shipping Over $75'                                      => 'Amazon-Fulfilled Shipping',
+		// Bundle price note (both &nbsp; and plain space variants)
+		'&nbsp;·&nbsp; Free shipping over $75'                        => '',
+		// Urgency bar
+		'THE TOURNAMENT IS COMING, ORDER NOW TO RECEIVE IN TIME!'     => 'FIFA WORLD CUP 2026 KICKS OFF SOON — ORDER NOW &amp; ARRIVE GAME-READY!',
+	);
+	foreach ( $replacements as $old => $new ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+	update_option( 'mm_copy_update_v1', '1' );
+} );
+
 // ─── Maison Merch: One-time DB migration — remove utility bar trust items ─────
 add_action( 'init', function() {
 	if ( get_option( 'mm_header_trust_removed_v1' ) === '1' ) {
