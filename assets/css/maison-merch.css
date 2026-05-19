@@ -2326,13 +2326,13 @@ footer {
 
   /* Brand story */
   .brand-story-inner { grid-template-columns: 1fr; gap: 40px; }
+  .pillars { grid-template-columns: repeat(2, 1fr); }
 
   /* Testimonials */
   .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
 
   /* How-to */
   .how-to-grid { grid-template-columns: 1fr; gap: 24px; max-width: 480px; margin: 0 auto; }
-  .how-to-connector { display: none; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
@@ -2368,10 +2368,12 @@ footer {
   .hero-card-price { font-size: 18px; }
   .hero-stat-divider { display: none; }
   .hero-stats { gap: 16px; flex-wrap: wrap; }
-  .hero-urgency { font-size: 13px; padding: 6px 12px; text-align: center; }
+  .hero-urgency { font-size: 12px; padding: 6px 12px; text-align: center; }
+  .hero-scroll-cue { display: none; }
 
   /* Bundles */
   .bundles-grid { max-width: 100%; }
+  .bundle-card-img { height: 220px; }
   .bundle-card-body { padding: 20px 16px; }
   .bundle-items { gap: 6px; }
   .bundle-item-chip { font-size: 11px; padding: 4px 10px; }
@@ -2380,15 +2382,13 @@ footer {
 
   /* Brand story */
   .brand-story { padding: 64px 0; }
-  .brand-story-values { flex-direction: column; gap: 20px; }
-  .brand-value { border-left: none; border-top: 3px solid var(--red); padding: 16px 0 0; }
+  .pillars { grid-template-columns: 1fr; }
 
   /* Testimonials */
   .testimonials-grid { grid-template-columns: 1fr; }
 
   /* How-to */
   .how-to { padding: 64px 0; }
-  .how-to-step { padding: 28px 20px; }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 36px; }
@@ -2547,6 +2547,8 @@ footer {
   .countries-grid .country-card,
   .countries-grid .country-card:nth-child(4),
   .countries-grid .country-card:nth-child(5) { grid-column: span 1; }
+  .country-flag-emoji { font-size: 40px; }
+  .country-name { font-size: 1.2rem; }
 }
 
 /* ═══════════════════════════════════════════════════════
