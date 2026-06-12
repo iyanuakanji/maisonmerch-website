@@ -367,3 +367,30 @@ add_action( 'init', function() {
 		flush_rewrite_rules();
 	}
 } );
+
+// ─── Maison Merch: One-time DB migration — Match Day Bundle availability ──────
+add_action( 'init', function() {
+	if ( get_option( 'mm_match_day_avail_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$old = '🇺🇸 USA &nbsp;·&nbsp; 🇲🇽 Mexico &nbsp;·&nbsp; 🇧🇷 Brazil &nbsp;·&nbsp; 🇦🇷 Argentina &nbsp;·&nbsp; 🇨🇦 Canada</span>
+          </div>
+
+          <!-- Key items preview -->
+          <div class="bundle-items">
+            <span class="bundle-item-chip">Cap</span>';
+	$new = '🇺🇸 USA &nbsp;·&nbsp; 🇨🇦 Canada</span>
+          </div>
+
+          <!-- Key items preview -->
+          <div class="bundle-items">
+            <span class="bundle-item-chip">Cap</span>';
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, %s, %s)
+		 WHERE post_content LIKE %s",
+		$old, $new, '%' . $wpdb->esc_like( '🇺🇸 USA &nbsp;·&nbsp; 🇲🇽 Mexico &nbsp;·&nbsp; 🇧🇷 Brazil' ) . '%'
+	) );
+	update_option( 'mm_match_day_avail_v1', '1' );
+} );
