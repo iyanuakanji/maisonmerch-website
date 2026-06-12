@@ -428,3 +428,32 @@ add_action( 'init', function() {
 	}
 	update_option( 'mm_prices_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — remove Match Day from MX/BR/AR cards ─
+add_action( 'init', function() {
+	if ( get_option( 'mm_country_match_day_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	// Only Mexico, Brazil, and Argentina cards contain "(local currency at checkout)".
+	// Use that as a discriminator so we don't touch the USA or Canada cards.
+	$old = '<span class="country-currency-note">(local currency at checkout)</span></div>
+          <div class="country-bundles">
+            <div class="country-bundle-row">
+              <span class="country-bundle-name">Match Day Fan Bundle</span>
+              <span class="country-bundle-price">$49.99</span>
+            </div>
+            <div class="country-bundle-row">
+              <span class="country-bundle-name">Ultimate Watch Party Kit</span>';
+	$new = '<span class="country-currency-note">(local currency at checkout)</span></div>
+          <div class="country-bundles">
+            <div class="country-bundle-row">
+              <span class="country-bundle-name">Ultimate Watch Party Kit</span>';
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, %s, %s)
+		 WHERE post_content LIKE %s",
+		$old, $new, '%' . $wpdb->esc_like( '(local currency at checkout)' ) . '%'
+	) );
+	update_option( 'mm_country_match_day_v1', '1' );
+} );
