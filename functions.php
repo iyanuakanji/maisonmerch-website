@@ -519,3 +519,51 @@ add_action( 'init', function() {
 
 	update_option( 'mm_review_fixes_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — Watch Party per-country links ──────
+add_action( 'init', function() {
+	if ( get_option( 'mm_watch_party_links_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$old_url = 'https://www.amazon.com/s?me=AYHCG6KQCHSKS';
+
+	// Each entry: [ country discriminator string, new Watch Party link ]
+	$country_links = [
+		[ 'United States</h3>', 'https://a.co/d/0j6trPvZ' ], // USA
+		[ 'Canada</h3>',        'https://a.co/d/0fjoFIlB' ], // Canada
+		[ 'Mexico</h3>',        'https://a.co/d/0i0dnaEK' ], // Mexico
+		[ 'Brazil</h3>',        'https://a.co/d/0hgGkJ5s' ], // Brazil
+		[ 'Argentina</h3>',     'https://a.co/d/0aw0s7GP' ], // Argentina
+	];
+
+	// Pull all stored homepage/template posts that still have the old generic URL
+	$posts = $wpdb->get_results( $wpdb->prepare(
+		"SELECT ID, post_content FROM {$wpdb->posts}
+		 WHERE post_content LIKE %s
+		   AND post_status IN ('publish','auto-draft')
+		   AND post_type IN ('wp_template','wp_template_part','page','post')",
+		'%' . $wpdb->esc_like( $old_url ) . '%'
+	) );
+
+	foreach ( $posts as $post ) {
+		$content = $post->post_content;
+		foreach ( $country_links as [ $discriminator, $new_url ] ) {
+			// Find the country heading, then replace the next occurrence of old_url after it
+			$pos = strpos( $content, $discriminator );
+			if ( $pos === false ) {
+				continue;
+			}
+			$after = strpos( $content, $old_url, $pos );
+			if ( $after === false ) {
+				continue;
+			}
+			$content = substr( $content, 0, $after ) . $new_url . substr( $content, $after + strlen( $old_url ) );
+		}
+		if ( $content !== $post->post_content ) {
+			$wpdb->update( $wpdb->posts, [ 'post_content' => $content ], [ 'ID' => $post->ID ] );
+		}
+	}
+
+	update_option( 'mm_watch_party_links_v1', '1' );
+} );
