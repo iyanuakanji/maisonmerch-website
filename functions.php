@@ -457,3 +457,20 @@ add_action( 'init', function() {
 	) );
 	update_option( 'mm_country_match_day_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — urgency bar "IS LIVE" update ───────
+add_action( 'init', function() {
+	if ( get_option( 'mm_urgency_live_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$old = 'FIFA WORLD CUP 2026 KICKS OFF SOON. ORDER NOW &amp; ARRIVE GAME-READY!';
+	$new = 'FIFA WORLD CUP 2026 IS LIVE. ORDER NOW &amp; ARRIVE GAME-READY!';
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, %s, %s)
+		 WHERE post_content LIKE %s",
+		$old, $new, '%' . $wpdb->esc_like( 'KICKS OFF SOON' ) . '%'
+	) );
+	update_option( 'mm_urgency_live_v1', '1' );
+} );
