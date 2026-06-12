@@ -2530,6 +2530,13 @@ footer {
   white-space: nowrap;
   margin-left: 8px;
 }
+.country-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  width: 100%;
+}
 .btn-country {
   display: inline-flex;
   align-items: center;
@@ -2546,7 +2553,7 @@ footer {
   transition: background .2s, transform .15s;
   width: 100%;
   justify-content: center;
-  margin-top: auto;
+  margin-top: 0;
 }
 .btn-country:hover {
   background: var(--red);

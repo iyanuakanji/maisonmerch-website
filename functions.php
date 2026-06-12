@@ -567,3 +567,75 @@ add_action( 'init', function() {
 
 	update_option( 'mm_watch_party_links_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — Match Day per-country links + dual CTAs ─
+add_action( 'init', function() {
+	if ( get_option( 'mm_match_day_links_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+
+	$svg = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+	// USA: replace single Watch Party btn with dual-CTA block
+	$usa_old = '<a href="https://a.co/d/0j6trPvZ" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+            View on Amazon
+            ' . $svg . '
+          </a>
+        </div>
+      </div>
+
+      <!-- Canada -->';
+	$usa_new = '<div class="country-ctas">
+            <a href="https://a.co/d/03tGeI7S" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+              Match Day Bundle
+              ' . $svg . '
+            </a>
+            <a href="https://a.co/d/0j6trPvZ" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+              Watch Party Kit
+              ' . $svg . '
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canada -->';
+
+	// Canada: replace single Watch Party btn with dual-CTA block
+	$ca_old = '<a href="https://a.co/d/0fjoFIlB" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+            View on Amazon
+            ' . $svg . '
+          </a>
+        </div>
+      </div>
+
+      <!-- Mexico -->';
+	$ca_new = '<div class="country-ctas">
+            <a href="https://a.co/d/00Xc3Dor" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+              Match Day Bundle
+              ' . $svg . '
+            </a>
+            <a href="https://a.co/d/0fjoFIlB" target="_blank" rel="noopener noreferrer" class="btn btn-country">
+              Watch Party Kit
+              ' . $svg . '
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mexico -->';
+
+	$pairs = [ [ $usa_old, $usa_new ], [ $ca_old, $ca_new ] ];
+
+	foreach ( $pairs as [ $old, $new ] ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%btn-country%'
+		) );
+	}
+
+	update_option( 'mm_match_day_links_v1', '1' );
+} );
