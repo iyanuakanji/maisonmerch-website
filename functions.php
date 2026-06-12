@@ -394,3 +394,37 @@ add_action( 'init', function() {
 	) );
 	update_option( 'mm_match_day_avail_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — update bundle prices ───────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_prices_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$replacements = array(
+		// Bundle card main prices
+		'$35 <span class="bundle-currency">USD</span>'  => '$49.99 <span class="bundle-currency">USD</span>',
+		'$55 <span class="bundle-currency">USD</span>'  => '$45.99 <span class="bundle-currency">USD</span>',
+		// Bundle card Canada notes
+		'🇨🇦 Canada: ~$48 CAD '                         => '🇨🇦 Canada: ~$68 CAD ',
+		'🇨🇦 Canada: ~$75 CAD '                         => '🇨🇦 Canada: ~$62 CAD ',
+		// Hero card prices
+		'<div class="hero-card-price">$35</div>'        => '<div class="hero-card-price">$49.99</div>',
+		'<div class="hero-card-price">$55</div>'        => '<div class="hero-card-price">$45.99</div>',
+		// Country showcase USD prices
+		'country-bundle-price">$35</span>'              => 'country-bundle-price">$49.99</span>',
+		'country-bundle-price">$55</span>'              => 'country-bundle-price">$45.99</span>',
+		// Country showcase Canada prices
+		'country-bundle-price">~$48</span>'             => 'country-bundle-price">~$68</span>',
+		'country-bundle-price">~$75</span>'             => 'country-bundle-price">~$62</span>',
+	);
+	foreach ( $replacements as $old => $new ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+	update_option( 'mm_prices_v1', '1' );
+} );
