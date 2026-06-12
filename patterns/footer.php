@@ -77,7 +77,7 @@
           <p>Get early access to new drops, exclusive deals, and game-day inspiration.</p>
           <form class="newsletter-form" id="footerNewsletterForm" novalidate>
             <input class="newsletter-input" id="footerEmail" type="email" placeholder="Your email address" aria-label="Email address" autocomplete="email" required />
-            <button class="newsletter-btn" type="submit">Go</button>
+            <button class="newsletter-btn" type="submit">Subscribe</button>
           </form>
           <p class="newsletter-feedback" id="footerNewsletterSuccess" hidden style="font-size:13px;color:#a8e6c4;margin-top:8px;font-weight:600;">✓ You're on the list!</p>
           <p class="newsletter-feedback" id="footerNewsletterError" hidden style="font-size:12px;color:#f08080;margin-top:6px;">Please enter a valid email address.</p>
@@ -178,7 +178,7 @@
         <span>🇺🇸</span><span>🇨🇦</span><span>🇲🇽</span><span>🇧🇷</span><span>🇦🇷</span>
       </div>
       <div class="mm-modal-badge">Fan Exclusive</div>
-      <h2 class="mm-modal-title" id="mmModalTitle">Game Day Is Coming.</h2>
+      <h2 class="mm-modal-title" id="mmModalTitle">The World Cup Is Live.</h2>
       <p class="mm-modal-sub">Be the first to know about new bundle drops, match-day deals, and fan-only offers across all 5 countries.</p>
 
       <form class="mm-modal-form" id="mmModalForm" novalidate>

@@ -474,3 +474,48 @@ add_action( 'init', function() {
 	) );
 	update_option( 'mm_urgency_live_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — 8-item review fixes (batch v1) ────
+add_action( 'init', function() {
+	if ( get_option( 'mm_review_fixes_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+
+	$replacements = [
+		// Hero eyebrow badge
+		[ 'Summer 2026 Ready', 'World Cup 2026 Live' ],
+		// Canada country card button label
+		[ 'View on Amazon.ca', 'View on Amazon' ],
+		// Pick Your Bundle subtitle
+		[
+			'Available for USA, Canada, Mexico, Argentina &amp; Brazil &#8212; curated kits built for every occasion, from solo supporters to full group watch parties.',
+			'Match Day Fan Bundle ships to USA &amp; Canada. Ultimate Soccer Watch Party Kit ships to all 5 nations &#8212; curated kits built for every occasion.',
+		],
+		// How to Order Step 1
+		[
+			'Choose from our Match Day Fan Bundle or Ultimate Soccer Watch Party Kit &#8212; available for USA, Canada, Mexico, Argentina &amp; Brazil.',
+			'The Match Day Fan Bundle ships to USA &amp; Canada. The Ultimate Soccer Watch Party Kit ships to all 5 nations &#8212; USA, Canada, Mexico, Brazil &amp; Argentina.',
+		],
+		// Footer newsletter button
+		[ '>Go<', '>Subscribe<' ],
+		// Email marketing popup modal title
+		[ 'Game Day Is Coming.', 'The World Cup Is Live.' ],
+		// FAQ Match Day price
+		[ 'The Match Day Fan Bundle ($35)', 'The Match Day Fan Bundle ($49.99)' ],
+		// FAQ Watch Party price
+		[ 'The Ultimate Soccer Watch Party Kit ($55)', 'The Ultimate Soccer Watch Party Kit ($45.99)' ],
+	];
+
+	foreach ( $replacements as [ $old, $new ] ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+
+	update_option( 'mm_review_fixes_v1', '1' );
+} );
