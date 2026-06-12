@@ -639,3 +639,50 @@ add_action( 'init', function() {
 
 	update_option( 'mm_match_day_links_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — Pick Your Bundle section CTA links ─
+add_action( 'init', function() {
+	if ( get_option( 'mm_bundle_cta_links_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$old_url = 'https://www.amazon.com/s?me=AYHCG6KQCHSKS';
+
+	// Match Day CTA — discriminator: ~$68 CAD price note unique to Match Day card
+	$wpdb->query( $wpdb->prepare(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(
+		   REPLACE(post_content,
+		     CONCAT(%s, %s, 'https://www.amazon.com/s?me=AYHCG6KQCHSKS'),
+		     CONCAT(%s, %s, 'https://a.co/d/03tGeI7S')
+		   ),
+		   post_content, post_content
+		 )
+		 WHERE 1=0",
+		'', '', '', ''
+	) );
+
+	// Simpler: do two targeted replacements using surrounding unique context
+	$pairs = [
+		[
+			'~$68 CAD </span>' . "\n            </div>\n            " . '<a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS"',
+			'~$68 CAD </span>' . "\n            </div>\n            " . '<a href="https://a.co/d/03tGeI7S"',
+		],
+		[
+			'~$62 CAD </span>' . "\n            </div>\n            " . '<a href="https://www.amazon.com/s?me=AYHCG6KQCHSKS"',
+			'~$62 CAD </span>' . "\n            </div>\n            " . '<a href="https://a.co/d/0j6trPvZ"',
+		],
+	];
+
+	foreach ( $pairs as [ $old, $new ] ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%bundle-cta%'
+		) );
+	}
+
+	update_option( 'mm_bundle_cta_links_v1', '1' );
+} );
