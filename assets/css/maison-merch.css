@@ -557,6 +557,8 @@ ul { list-style: none; }
   object-fit: cover;
   object-position: center;
   display: block;
+  transform: scale(1.18);
+  transform-origin: center center;
 }
 .hero-card-label {
   font-size: 12px;
@@ -680,9 +682,11 @@ ul { list-style: none; }
   object-fit: cover;
   object-position: center;
   display: block;
+  transform: scale(1.15);
+  transform-origin: center center;
   transition: transform .4s ease;
 }
-.bundle-card:hover .bundle-card-photo { transform: scale(1.04); }
+.bundle-card:hover .bundle-card-photo { transform: scale(1.22); }
 .bundle-big-box {
   width: 160px;
   height: 120px;
