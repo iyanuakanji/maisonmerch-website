@@ -1149,6 +1149,44 @@ ul { list-style: none; }
 .testi-name  { font-size: 14px; font-weight: 700; color: var(--white); }
 .testi-meta  { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
 
+/* ─── World Cup Live Scores ───────────────────────── */
+.wc-scores-section {
+  background: #0a0e17;
+  padding: 80px 20px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.wc-scores-section .section-header.light h2 {
+  color: var(--white);
+}
+.wc-scores-section .section-header.light p {
+  color: rgba(255,255,255,.55);
+}
+.wc-widget-wrapper {
+  max-width: 840px;
+  margin: 0 auto;
+}
+.wc-widget-wrapper iframe {
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.wc-attribution {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,.3);
+  margin-top: 14px;
+  letter-spacing: .04em;
+}
+.wc-attribution a {
+  color: rgba(255,255,255,.45);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.wc-attribution a:hover { color: var(--yellow); }
+
 /* ─── How to Order ────────────────────────────────── */
 .how-to {
   padding: 100px 0;
