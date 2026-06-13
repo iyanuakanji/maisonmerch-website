@@ -826,3 +826,26 @@ add_action( 'init', function() {
 	}
 	update_option( 'mm_wp_price_v2', '1' );
 } );
+
+// ─── Maison Merch: Force-replace Watch Party price in ALL stored content ──────
+add_action( 'init', function() {
+	if ( get_option( 'mm_wp_price_v3' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	// Hit every post type and every status to ensure nothing is missed
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, '$45.99', '$44.99')
+		 WHERE post_content LIKE '%45.99%'"
+	);
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, '~\$62 CAD', '~\$61 CAD')
+		 WHERE post_content LIKE '%\$62 CAD%'"
+	);
+	// Also clear any cached transients so WP serves fresh content
+	delete_transient( 'mm_homepage_cache' );
+	wp_cache_flush();
+	update_option( 'mm_wp_price_v3', '1' );
+} );
