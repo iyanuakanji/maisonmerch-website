@@ -714,3 +714,31 @@ add_action( 'init', function() {
 	}
 	update_option( 'mm_hero_images_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — hero image swap v2 ─────────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_hero_images_v2' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$replacements = [
+		[
+			'https://maisonmerch.ca/wp-content/uploads/2026/06/USA_Match_Day.jpeg',
+			'https://maisonmerch.ca/wp-content/uploads/2026/06/Match_Day_Canada.png',
+		],
+		[
+			'https://maisonmerch.ca/wp-content/uploads/2026/06/USA_Watch_Party.jpeg',
+			'https://maisonmerch.ca/wp-content/uploads/2026/06/Watch_Party_USA.png',
+		],
+	];
+	foreach ( $replacements as [ $old, $new ] ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+	update_option( 'mm_hero_images_v2', '1' );
+} );
