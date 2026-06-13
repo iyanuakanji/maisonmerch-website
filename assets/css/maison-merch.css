@@ -136,6 +136,33 @@ ul { list-style: none; }
 .section-header.light h2 { color: var(--white); }
 .section-header.light p  { color: rgba(255,255,255,.65); }
 
+/* ─── Announcement Bar ────────────────────────────── */
+.announcement-bar {
+  background: var(--red);
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.announcement-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.announcement-icon { font-size: 14px; }
+.announcement-bar a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.announcement-bar a:hover { opacity: .8; }
+
 /* ─── Utility Bar ─────────────────────────────────── */
 .utility-bar {
   background: var(--navy-dark);
@@ -454,17 +481,17 @@ ul { list-style: none; }
 .hero-stat {}
 .hero-stat-num {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 44px;
   color: var(--yellow);
   letter-spacing: .02em;
   line-height: 1;
 }
 .hero-stat-label {
-  font-size: 11px;
-  color: rgba(255,255,255,.5);
+  font-size: 12px;
+  color: rgba(255,255,255,.65);
   letter-spacing: .08em;
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 .hero-stat-divider {
   width: 1px;
@@ -674,7 +701,7 @@ ul { list-style: none; }
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: #f0f0f0;
+  background: linear-gradient(160deg, #0f1f35 0%, #1b2d4f 100%);
 }
 .bundle-card-photo {
   width: 100%;
@@ -752,11 +779,12 @@ ul { list-style: none; }
   margin-bottom: 8px;
 }
 .bundle-card-name {
-  font-family: var(--font-display);
-  font-size: 28px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 800;
   color: var(--navy-dark);
-  letter-spacing: .02em;
-  line-height: 1;
+  letter-spacing: -.01em;
+  line-height: 1.15;
   margin-bottom: 10px;
 }
 .bundle-card-desc {
@@ -1073,7 +1101,7 @@ ul { list-style: none; }
 /* ─── Testimonials ────────────────────────────────── */
 .testimonials {
   padding: 100px 0;
-  background: var(--off-white);
+  background: var(--navy-dark);
 }
 .testimonials-grid {
   display: grid;
@@ -1081,10 +1109,10 @@ ul { list-style: none; }
   gap: 24px;
 }
 .testi-card {
-  background: var(--off-white);
+  background: rgba(255,255,255,.05);
   border-radius: var(--radius-md);
   padding: 28px;
-  border: 1px solid var(--grey-light);
+  border: 1px solid rgba(255,255,255,.1);
   transition: all var(--transition);
 }
 .testi-card:hover {
@@ -1094,7 +1122,7 @@ ul { list-style: none; }
 .testi-stars { margin-bottom: 14px; font-size: 14px; color: var(--yellow); }
 .testi-text {
   font-size: 15px;
-  color: var(--body-text);
+  color: rgba(255,255,255,.8);
   line-height: 1.65;
   margin-bottom: 20px;
 }
@@ -1118,8 +1146,8 @@ ul { list-style: none; }
 .av-blue   { background: linear-gradient(135deg, #1B2D4F, #3A5998); }
 .av-red    { background: linear-gradient(135deg, #E63946, #c0303c); }
 .av-green  { background: linear-gradient(135deg, #27ae60, #2ecc71); }
-.testi-name  { font-size: 14px; font-weight: 700; color: var(--navy-dark); }
-.testi-meta  { font-size: 12px; color: var(--grey-text); margin-top: 2px; }
+.testi-name  { font-size: 14px; font-weight: 700; color: var(--white); }
+.testi-meta  { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
 
 /* ─── How to Order ────────────────────────────────── */
 .how-to {
@@ -1185,10 +1213,11 @@ ul { list-style: none; }
 }
 .step-icon svg { width: 13px; height: 13px; color: var(--navy-dark); }
 .step-title {
-  font-family: var(--font-display);
-  font-size: 28px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 800;
   color: var(--white);
-  letter-spacing: .04em;
+  letter-spacing: -.01em;
   margin-bottom: 10px;
 }
 .step-desc {
@@ -2439,7 +2468,7 @@ footer {
 ═══════════════════════════════════════════════════════ */
 .countries {
   padding: 80px 0;
-  background: var(--off-white);
+  background: #ffffff;
 }
 .countries-grid {
   display: grid;
@@ -2487,10 +2516,11 @@ footer {
   gap: 12px;
 }
 .country-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.4rem;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--navy);
-  letter-spacing: .04em;
+  letter-spacing: -.01em;
   margin: 0;
 }
 .country-currency {

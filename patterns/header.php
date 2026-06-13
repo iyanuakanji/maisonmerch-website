@@ -12,6 +12,13 @@
  */
 ?>
 <!-- wp:html -->
+<div class="announcement-bar">
+  <div class="announcement-bar-inner">
+    <span class="announcement-icon">🏆</span>
+    FIFA World Cup 2026 is Live &mdash;
+    <a href="#bundles">Shop Now &amp; Arrive Game-Ready</a>
+  </div>
+</div>
 <div class="utility-bar">
   <div class="container">
     <div class="utility-contacts">

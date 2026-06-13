@@ -770,3 +770,37 @@ add_action( 'init', function() {
 	}
 	update_option( 'mm_bundle_images_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — design refresh batch ───────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_design_refresh_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$replacements = [
+		// Bundle CTAs — specific names
+		[ 'class="btn btn-primary bundle-cta">Shop This Bundle</a>',        'class="btn btn-primary bundle-cta">Shop Match Day Bundle</a>' ],
+		[ 'class="btn btn-primary bundle-cta">Shop Watch Party Kit</a>',    'class="btn btn-primary bundle-cta">Shop Watch Party Kit</a>' ],
+		// Testimonials — add light class + remove badge
+		[
+			"<div class=\"section-header\">\n      <span class=\"label-badge\">Customer Reviews</span>\n      <h2>Fans Love It</h2>",
+			"<div class=\"section-header light\">\n      <h2>Fans Love It</h2>",
+		],
+		// How-to — remove Simple Process badge
+		[
+			"<div class=\"section-header light\">\n      <span class=\"label-badge\">Simple Process</span>\n      <h2>How to Order</h2>",
+			"<div class=\"section-header light\">\n      <h2>How to Order</h2>",
+		],
+	];
+	foreach ( $replacements as [ $old, $new ] ) {
+		if ( $old === $new ) continue;
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%' . $wpdb->esc_like( substr( $old, 0, 40 ) ) . '%'
+		) );
+	}
+	update_option( 'mm_design_refresh_v1', '1' );
+} );
