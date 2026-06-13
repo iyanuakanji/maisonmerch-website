@@ -804,3 +804,25 @@ add_action( 'init', function() {
 	}
 	update_option( 'mm_design_refresh_v1', '1' );
 } );
+
+// ─── Maison Merch: One-time DB migration — Watch Party price $45.99→$44.99 ───
+add_action( 'init', function() {
+	if ( get_option( 'mm_wp_price_v2' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$replacements = [
+		[ '$45.99', '$44.99' ],
+		[ '~$62 CAD', '~$61 CAD' ],
+	];
+	foreach ( $replacements as [ $old, $new ] ) {
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE {$wpdb->posts}
+			 SET post_content = REPLACE(post_content, %s, %s)
+			 WHERE post_content LIKE %s
+			   AND post_status IN ('publish','auto-draft')",
+			$old, $new, '%' . $wpdb->esc_like( $old ) . '%'
+		) );
+	}
+	update_option( 'mm_wp_price_v2', '1' );
+} );
