@@ -851,63 +851,35 @@ add_action( 'init', function() {
 } );
 
 // ─── Maison Merch: Add World Cup Live Scores section ─────────────────────────
+// Reads the template file directly so no complex string ops are needed.
 add_action( 'init', function() {
 	if ( get_option( 'mm_wc_scores_v1' ) === '1' ) {
 		return;
 	}
 	global $wpdb;
 
-	$wc_section = '
-<!-- ═══════════════════════════════════════════════════════
-     WORLD CUP LIVE SCORES
-═══════════════════════════════════════════════════════ -->
-<section class="wc-scores-section">
-  <div class="container">
-    <div class="section-header light">
-      <h2>World Cup Live Scores</h2>
-      <p>Real-time fixtures, live scores, and results — the tournament is happening now.</p>
-    </div>
-    <div class="wc-widget-wrapper">
-      <iframe
-        src="https://www.sportbusy.com/embed/world-cup?theme=dark"
-        height="520"
-        loading="lazy"
-        title="FIFA World Cup 2026 Fixtures &amp; Live Scores"
-      ></iframe>
-      <p class="wc-attribution">Scores &amp; fixtures by <a href="https://www.sportbusy.com" target="_blank" rel="noopener noreferrer">SportBusy</a></p>
-    </div>
-  </div>
-</section>
-
-';
-
-	$marker_old = '</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     HOW TO ORDER';
-	$marker_new = $wc_section . '<!-- ═══════════════════════════════════════════════════════
-     HOW TO ORDER';
-
-	$rows = $wpdb->get_results(
-		"SELECT ID, post_content FROM {$wpdb->posts}
-		 WHERE post_name IN ('front-page','home')
-		   AND post_type = 'wp_template'
-		   AND post_content LIKE '%HOW TO ORDER%'",
-		ARRAY_A
+	$theme_dir = get_template_directory();
+	$templates = array(
+		'front-page' => $theme_dir . '/templates/front-page.html',
+		'home'       => $theme_dir . '/templates/home.html',
 	);
 
-	foreach ( $rows as $row ) {
-		if ( strpos( $row['post_content'], 'wc-scores-section' ) !== false ) {
-			continue; // already applied
+	foreach ( $templates as $slug => $path ) {
+		if ( ! file_exists( $path ) ) {
+			continue;
 		}
-		$new_content = str_replace( $marker_old, $marker_new, $row['post_content'] );
-		if ( $new_content !== $row['post_content'] ) {
-			$wpdb->update(
-				$wpdb->posts,
-				array( 'post_content' => $new_content ),
-				array( 'ID' => $row['ID'] )
-			);
+		$file_content = file_get_contents( $path );
+		if ( $file_content === false ) {
+			continue;
 		}
+		$wpdb->update(
+			$wpdb->posts,
+			array( 'post_content' => $file_content ),
+			array(
+				'post_name' => $slug,
+				'post_type' => 'wp_template',
+			)
+		);
 	}
 
 	wp_cache_flush();
