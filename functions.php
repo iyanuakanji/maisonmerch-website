@@ -850,10 +850,10 @@ add_action( 'init', function() {
 	update_option( 'mm_wp_price_v3', '1' );
 } );
 
-// ─── Maison Merch: Add World Cup Live Scores section ─────────────────────────
+// ─── Maison Merch: World Cup Live Scores — moved to position A (before bundles)
 // Reads the template file directly so no complex string ops are needed.
 add_action( 'init', function() {
-	if ( get_option( 'mm_wc_scores_v1' ) === '1' ) {
+	if ( get_option( 'mm_wc_scores_v2' ) === '1' ) {
 		return;
 	}
 	global $wpdb;
@@ -883,5 +883,5 @@ add_action( 'init', function() {
 	}
 
 	wp_cache_flush();
-	update_option( 'mm_wc_scores_v1', '1' );
+	update_option( 'mm_wc_scores_v2', '1' );
 } );
