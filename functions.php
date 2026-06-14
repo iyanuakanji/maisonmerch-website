@@ -920,3 +920,23 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_buy_now_v2', '1' );
 } );
+
+// ─── Maison Merch: Country card bundle buttons → "Buy Now" ───────────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_buy_now_v3' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, 'Match Day Bundle\n            ', 'Buy Now\n            ')
+		 WHERE post_content LIKE '%Match Day Bundle%'"
+	);
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, 'Watch Party Kit\n            ', 'Buy Now\n            ')
+		 WHERE post_content LIKE '%Watch Party Kit%'"
+	);
+	wp_cache_flush();
+	update_option( 'mm_buy_now_v3', '1' );
+} );
