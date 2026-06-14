@@ -1152,7 +1152,7 @@ ul { list-style: none; }
 /* ─── World Cup Live Scores ───────────────────────── */
 .wc-scores-section {
   background: #0a0e17;
-  padding: 80px 20px;
+  padding: 80px 0;
   border-top: 1px solid rgba(255,255,255,.06);
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
@@ -1196,9 +1196,9 @@ ul { list-style: none; }
   50%      { opacity: .4; transform: scale(.7); }
 }
 .wc-cd-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--red);
   white-space: nowrap;
@@ -2509,7 +2509,9 @@ footer {
 
   /* World Cup Hub */
   .wc-widgets-grid { grid-template-columns: 1fr; }
-  .wc-countdown-strip { gap: 10px; padding: 12px 16px; }
+  .wc-countdown-strip { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 18px; }
+  .wc-strip-left { gap: 8px; flex-wrap: wrap; }
+  .wc-live-sub { display: none; }
   .wc-cd-num { font-size: 18px; min-width: 24px; }
 
   /* How-to */
@@ -2590,6 +2592,9 @@ footer {
   /* Testimonials */
   .testimonials-grid { grid-template-columns: 1fr; }
 
+  /* World Cup Hub */
+  .wc-scores-section { padding: 56px 0; }
+
   /* How-to */
   .how-to { padding: 64px 0; }
 
@@ -2623,7 +2628,7 @@ footer {
   /* 6-col subgrid: each card spans 2 cols; row 2 cards 4+5 start at col 2 & 4 = centred */
   grid-template-columns: repeat(6, 1fr);
   gap: 24px;
-  margin-top: 48px;
+  margin-top: 0;
 }
 .countries-grid .country-card { grid-column: span 2; }
 @media (min-width: 901px) {
