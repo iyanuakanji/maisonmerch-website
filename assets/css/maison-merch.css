@@ -1175,7 +1175,19 @@ ul { list-style: none; }
   margin: 0 auto 28px;
   flex-wrap: wrap;
 }
-.wc-cd-icon { font-size: 20px; line-height: 1; }
+/* pulsing live dot */
+.wc-live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+  flex-shrink: 0;
+  animation: wc-pulse 1.4s ease-in-out infinite;
+}
+@keyframes wc-pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .4; transform: scale(.7); }
+}
 .wc-cd-label {
   font-size: 10px;
   font-weight: 700;
@@ -1190,6 +1202,11 @@ ul { list-style: none; }
   font-weight: 600;
   color: var(--white);
   min-width: 100px;
+}
+.wc-live-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  white-space: nowrap;
 }
 .wc-cd-timer { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
 .wc-cd-unit  { display: flex; align-items: baseline; gap: 2px; }
