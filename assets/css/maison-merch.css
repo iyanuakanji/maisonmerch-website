@@ -1166,14 +1166,21 @@ ul { list-style: none; }
 .wc-countdown-strip {
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 12px;
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 10px;
   padding: 14px 22px;
   max-width: 840px;
   margin: 0 auto 28px;
-  flex-wrap: wrap;
+}
+/* left cluster: dot + label + teams/timer */
+.wc-strip-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 /* pulsing live dot */
 .wc-live-dot {
@@ -1194,19 +1201,19 @@ ul { list-style: none; }
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--red);
-  flex-shrink: 0;
+  white-space: nowrap;
 }
 .wc-cd-teams {
-  flex: 1;
   font-size: 14px;
   font-weight: 600;
   color: var(--white);
-  min-width: 100px;
+  white-space: nowrap;
 }
 .wc-live-sub {
   font-size: 11px;
   color: rgba(255,255,255,.45);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .wc-cd-timer { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
 .wc-cd-unit  { display: flex; align-items: baseline; gap: 2px; }
