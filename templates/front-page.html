@@ -388,8 +388,8 @@
   }
 
   /* Switch strip to countdown mode */
-  labelEl.textContent = 'NEXT MATCH';
-  teamsEl.textContent = 'next match starts in';
+  labelEl.textContent = 'next match starts in...';
+  teamsEl.style.display = 'none';
   timerEl.style.display = 'flex';
 
   (function tick(){
