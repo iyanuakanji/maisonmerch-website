@@ -900,3 +900,23 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_buy_now_v1', '1' );
 } );
+
+// ─── Maison Merch: Rename bundle CTAs → "Buy Now" ────────────────────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_buy_now_v2' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, 'Shop Match Day Bundle', 'Buy Now')
+		 WHERE post_content LIKE '%Shop Match Day Bundle%'"
+	);
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, 'Shop Watch Party Kit', 'Buy Now')
+		 WHERE post_content LIKE '%Shop Watch Party Kit%'"
+	);
+	wp_cache_flush();
+	update_option( 'mm_buy_now_v2', '1' );
+} );
