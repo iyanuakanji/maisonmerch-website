@@ -722,6 +722,172 @@
   });
 })();
 </script>
+
+
+<!-- WC 2026 Match Ticker -->
+<div class="wc-match-ticker" id="wc-match-ticker" role="region" aria-label="FIFA World Cup 2026 match ticker">
+  <div class="wct-brand">
+    <span class="wct-trophy" aria-hidden="true">&#x1F3C6;</span>
+    <span class="wct-brand-text">WC 2026</span>
+  </div>
+  <div class="wct-live-section" id="wct-live-section" style="display:none">
+    <span class="wct-live-dot" aria-hidden="true"></span>
+    <span class="wct-live-label">LIVE</span>
+    <span class="wct-live-match" id="wct-live-match"></span>
+  </div>
+  <div class="wct-scroll-wrap">
+    <div class="wct-track" id="wct-track"></div>
+  </div>
+  <button class="wct-pause-btn" id="wct-pause-btn" aria-label="Pause ticker">&#x23F8;</button>
+</div>
+<script>
+/* WC 2026 Match Ticker -- self-contained, no external API */
+/* All flag emojis use JS unicode escapes -- keeps source ASCII-safe for MySQL utf8 */
+(function(){
+  var track     = document.getElementById('wct-track');
+  var liveSec   = document.getElementById('wct-live-section');
+  var liveMatch = document.getElementById('wct-live-match');
+  var pauseBtn  = document.getElementById('wct-pause-btn');
+  if(!track) return;
+
+  /* FIFA World Cup 2026 schedule (UTC) -- update with official fixtures as needed */
+  var M = [
+    /* Jun 12 */
+    {t:'2026-06-12T23:00Z',h:'Mexico',      hf:'\uD83C\uDDF2\uD83C\uDDFD',a:'Ecuador',      af:'\uD83C\uDDEA\uD83C\uDDE8'},
+    /* Jun 13 */
+    {t:'2026-06-13T19:00Z',h:'USA',          hf:'\uD83C\uDDFA\uD83C\uDDF8',a:'Panama',        af:'\uD83C\uDDF5\uD83C\uDDE6'},
+    {t:'2026-06-13T22:00Z',h:'Morocco',      hf:'\uD83C\uDDF2\uD83C\uDDE6',a:'Saudi Arabia',  af:'\uD83C\uDDF8\uD83C\uDDE6'},
+    /* Jun 14 */
+    {t:'2026-06-14T19:00Z',h:'Italy',        hf:'\uD83C\uDDEE\uD83C\uDDF9',a:'Colombia',      af:'\uD83C\uDDE8\uD83C\uDDF4'},
+    {t:'2026-06-14T22:00Z',h:'Belgium',      hf:'\uD83C\uDDE7\uD83C\uDDEA',a:'Egypt',         af:'\uD83C\uDDEA\uD83C\uDDEC'},
+    {t:'2026-06-15T01:00Z',h:'Saudi Arabia', hf:'\uD83C\uDDF8\uD83C\uDDE6',a:'Uruguay',       af:'\uD83C\uDDFA\uD83C\uDDFE'},
+    /* Jun 15 */
+    {t:'2026-06-15T18:00Z',h:'Iran',         hf:'\uD83C\uDDEE\uD83C\uDDF7',a:'Australia',     af:'\uD83C\uDDE6\uD83C\uDDFA'},
+    {t:'2026-06-15T21:00Z',h:'France',       hf:'\uD83C\uDDEB\uD83C\uDDF7',a:'Senegal',       af:'\uD83C\uDDF8\uD83C\uDDF3'},
+    /* Jun 16 */
+    {t:'2026-06-16T15:00Z',h:'Spain',        hf:'\uD83C\uDDEA\uD83C\uDDF8',a:'Tunisia',       af:'\uD83C\uDDF9\uD83C\uDDF3'},
+    {t:'2026-06-16T18:00Z',h:'Egypt',        hf:'\uD83C\uDDEA\uD83C\uDDEC',a:'Norway',        af:'\uD83C\uDDF3\uD83C\uDDF4'},
+    {t:'2026-06-16T21:00Z',h:'Argentina',    hf:'\uD83C\uDDE6\uD83C\uDDF7',a:'Algeria',       af:'\uD83C\uDDE9\uD83C\uDDFF'},
+    /* Jun 17 */
+    {t:'2026-06-17T14:00Z',h:'Portugal',     hf:'\uD83C\uDDF5\uD83C\uDDF9',a:'Ghana',         af:'\uD83C\uDDEC\uD83C\uDDED'},
+    {t:'2026-06-17T17:00Z',h:'Germany',      hf:'\uD83C\uDDE9\uD83C\uDDEA',a:'Japan',         af:'\uD83C\uDDEF\uD83C\uDDF5'},
+    {t:'2026-06-17T20:00Z',h:'England',      hf:'\uD83C\uDDEC\uD83C\uDDE7',a:'Cameroon',      af:'\uD83C\uDDE8\uD83C\uDDF2'},
+    /* Jun 18 */
+    {t:'2026-06-18T16:00Z',h:'Netherlands',  hf:'\uD83C\uDDF3\uD83C\uDDF1',a:'South Korea',   af:'\uD83C\uDDF0\uD83C\uDDF7'},
+    {t:'2026-06-18T19:00Z',h:'Croatia',      hf:'\uD83C\uDDED\uD83C\uDDF7',a:'Serbia',        af:'\uD83C\uDDF7\uD83C\uDDF8'},
+    {t:'2026-06-18T22:00Z',h:'Brazil',       hf:'\uD83C\uDDE7\uD83C\uDDF7',a:'Nigeria',       af:'\uD83C\uDDF3\uD83C\uDDEC'},
+    /* Jun 19 */
+    {t:'2026-06-19T16:00Z',h:'Canada',       hf:'\uD83C\uDDE8\uD83C\uDDE6',a:'Honduras',      af:'\uD83C\uDDED\uD83C\uDDF3'},
+    {t:'2026-06-19T19:00Z',h:'Switzerland',  hf:'\uD83C\uDDE8\uD83C\uDDED',a:'Turkey',        af:'\uD83C\uDDF9\uD83C\uDDF7'},
+    {t:'2026-06-19T22:00Z',h:'Denmark',      hf:'\uD83C\uDDE9\uD83C\uDDF0',a:'Ivory Coast',   af:'\uD83C\uDDE8\uD83C\uDDEE'},
+    /* Jun 20 */
+    {t:'2026-06-20T16:00Z',h:'Poland',       hf:'\uD83C\uDDF5\uD83C\uDDF1',a:'Chile',         af:'\uD83C\uDDE8\uD83C\uDDF1'},
+    {t:'2026-06-20T19:00Z',h:'Uruguay',      hf:'\uD83C\uDDFA\uD83C\uDDFE',a:'Ecuador',       af:'\uD83C\uDDEA\uD83C\uDDE8'},
+    {t:'2026-06-20T22:00Z',h:'Australia',    hf:'\uD83C\uDDE6\uD83C\uDDFA',a:'Japan',         af:'\uD83C\uDDEF\uD83C\uDDF5'},
+    /* Jun 21 */
+    {t:'2026-06-21T15:00Z',h:'USA',          hf:'\uD83C\uDDFA\uD83C\uDDF8',a:'Morocco',       af:'\uD83C\uDDF2\uD83C\uDDE6'},
+    {t:'2026-06-21T18:00Z',h:'Mexico',       hf:'\uD83C\uDDF2\uD83C\uDDFD',a:'Jamaica',       af:'\uD83C\uDDEF\uD83C\uDDF2'},
+    {t:'2026-06-21T21:00Z',h:'Spain',        hf:'\uD83C\uDDEA\uD83C\uDDF8',a:'Senegal',       af:'\uD83C\uDDF8\uD83C\uDDF3'},
+    /* Jun 22 */
+    {t:'2026-06-22T15:00Z',h:'Argentina',    hf:'\uD83C\uDDE6\uD83C\uDDF7',a:'Peru',          af:'\uD83C\uDDF5\uD83C\uDDEA'},
+    {t:'2026-06-22T18:00Z',h:'Brazil',       hf:'\uD83C\uDDE7\uD83C\uDDF7',a:'Ghana',         af:'\uD83C\uDDEC\uD83C\uDDED'},
+    {t:'2026-06-22T21:00Z',h:'France',       hf:'\uD83C\uDDEB\uD83C\uDDF7',a:'Colombia',      af:'\uD83C\uDDE8\uD83C\uDDF4'},
+    /* Jun 23 */
+    {t:'2026-06-23T15:00Z',h:'Germany',      hf:'\uD83C\uDDE9\uD83C\uDDEA',a:'Cameroon',      af:'\uD83C\uDDE8\uD83C\uDDF2'},
+    {t:'2026-06-23T18:00Z',h:'Portugal',     hf:'\uD83C\uDDF5\uD83C\uDDF9',a:'Nigeria',       af:'\uD83C\uDDF3\uD83C\uDDEC'},
+    {t:'2026-06-23T21:00Z',h:'England',      hf:'\uD83C\uDDEC\uD83C\uDDE7',a:'Serbia',        af:'\uD83C\uDDF7\uD83C\uDDF8'},
+    /* Jun 24 */
+    {t:'2026-06-24T16:00Z',h:'Canada',       hf:'\uD83C\uDDE8\uD83C\uDDE6',a:'Uruguay',       af:'\uD83C\uDDFA\uD83C\uDDFE'},
+    {t:'2026-06-24T19:00Z',h:'Belgium',      hf:'\uD83C\uDDE7\uD83C\uDDEA',a:'Norway',        af:'\uD83C\uDDF3\uD83C\uDDF4'},
+    {t:'2026-06-24T22:00Z',h:'Netherlands',  hf:'\uD83C\uDDF3\uD83C\uDDF1',a:'Croatia',       af:'\uD83C\uDDED\uD83C\uDDF7'},
+    /* Jun 25 */
+    {t:'2026-06-25T16:00Z',h:'South Korea',  hf:'\uD83C\uDDF0\uD83C\uDDF7',a:'Switzerland',   af:'\uD83C\uDDE8\uD83C\uDDED'},
+    {t:'2026-06-25T19:00Z',h:'Denmark',      hf:'\uD83C\uDDE9\uD83C\uDDF0',a:'Chile',         af:'\uD83C\uDDE8\uD83C\uDDF1'},
+    {t:'2026-06-25T22:00Z',h:'Italy',        hf:'\uD83C\uDDEE\uD83C\uDDF9',a:'Iran',          af:'\uD83C\uDDEE\uD83C\uDDF7'},
+    /* Jun 26 */
+    {t:'2026-06-26T16:00Z',h:'Poland',       hf:'\uD83C\uDDF5\uD83C\uDDF1',a:'Ecuador',       af:'\uD83C\uDDEA\uD83C\uDDE8'},
+    {t:'2026-06-26T19:00Z',h:'Japan',        hf:'\uD83C\uDDEF\uD83C\uDDF5',a:'Australia',     af:'\uD83C\uDDE6\uD83C\uDDFA'},
+    {t:'2026-06-26T22:00Z',h:'Algeria',      hf:'\uD83C\uDDE9\uD83C\uDDFF',a:'Tunisia',       af:'\uD83C\uDDF9\uD83C\uDDF3'},
+    /* Jun 27 */
+    {t:'2026-06-27T16:00Z',h:'Morocco',      hf:'\uD83C\uDDF2\uD83C\uDDE6',a:'Panama',        af:'\uD83C\uDDF5\uD83C\uDDE6'},
+    {t:'2026-06-27T16:00Z',h:'USA',          hf:'\uD83C\uDDFA\uD83C\uDDF8',a:'Saudi Arabia',  af:'\uD83C\uDDF8\uD83C\uDDE6'},
+    {t:'2026-06-27T20:00Z',h:'Mexico',       hf:'\uD83C\uDDF2\uD83C\uDDFD',a:'Honduras',      af:'\uD83C\uDDED\uD83C\uDDF3'},
+    {t:'2026-06-27T20:00Z',h:'Canada',       hf:'\uD83C\uDDE8\uD83C\uDDE6',a:'Jamaica',       af:'\uD83C\uDDEF\uD83C\uDDF2'}
+  ];
+
+  var LIVE_WIN = 105 * 60 * 1000;
+  var paused   = false;
+  var pos      = 0;
+
+  function pad(n){ return ('0'+n).slice(-2); }
+
+  function localTime(s){
+    var d = new Date(s);
+    return pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+
+  function shortDate(s){
+    var d = new Date(s);
+    var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return d.getDate() + ' ' + mo[d.getMonth()];
+  }
+
+  function render(){
+    var now = Date.now();
+    var live = null;
+    var upcoming = [];
+    for(var i=0; i<M.length; i++){
+      var mt = new Date(M[i].t).getTime();
+      if(mt <= now && now < mt + LIVE_WIN){ live = M[i]; }
+      else if(mt > now){ upcoming.push(M[i]); }
+    }
+    if(live){
+      liveSec.style.display = 'flex';
+      liveMatch.textContent = live.hf + '  ' + live.h + '  vs  ' + live.a + '  ' + live.af;
+    } else {
+      liveSec.style.display = 'none';
+    }
+    var html = '';
+    var lastDate = '';
+    var show = upcoming.slice(0, 35);
+    for(var j=0; j<show.length; j++){
+      var ds = shortDate(show[j].t);
+      if(ds !== lastDate){
+        html += '<span class="wct-date-sep">' + ds + '</span>';
+        lastDate = ds;
+      }
+      html += '<span class="wct-item">';
+      html += '<span class="wct-item-time">' + localTime(show[j].t) + '</span>';
+      html += '<span class="wct-item-match">' + show[j].hf + ' ' + show[j].h + ' <span class="wct-vs">vs</span> ' + show[j].a + ' ' + show[j].af + '</span>';
+      html += '</span>';
+    }
+    track.innerHTML = html + html;
+  }
+
+  render();
+
+  var speed = 0.55;
+  function tick(){
+    if(!paused){
+      pos += speed;
+      var half = track.scrollWidth / 2;
+      if(half > 0 && pos >= half){ pos = 0; }
+      track.style.transform = 'translateX(-' + pos + 'px)';
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  track.addEventListener('mouseenter', function(){ paused = true; });
+  track.addEventListener('mouseleave', function(){ paused = false; });
+
+  pauseBtn.addEventListener('click', function(){
+    paused = !paused;
+    pauseBtn.innerHTML = paused ? '&#x25B6;' : '&#x23F8;';
+  });
+})();
+</script>
+
 <!-- /wp:html -->
 
 </main>
