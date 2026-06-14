@@ -1162,6 +1162,87 @@ ul { list-style: none; }
 .wc-scores-section .section-header.light p {
   color: rgba(255,255,255,.55);
 }
+/* countdown strip */
+.wc-countdown-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 14px 22px;
+  max-width: 840px;
+  margin: 0 auto 28px;
+  flex-wrap: wrap;
+}
+.wc-cd-icon { font-size: 20px; line-height: 1; }
+.wc-cd-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--red);
+  flex-shrink: 0;
+}
+.wc-cd-teams {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  min-width: 100px;
+}
+.wc-cd-timer { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.wc-cd-unit  { display: flex; align-items: baseline; gap: 2px; }
+.wc-cd-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  min-width: 30px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-body);
+}
+.wc-cd-lbl {
+  font-size: 10px;
+  color: rgba(255,255,255,.45);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.wc-cd-sep {
+  font-size: 18px;
+  color: rgba(255,255,255,.25);
+  font-weight: 700;
+  padding-bottom: 2px;
+  margin: 0 1px;
+}
+
+/* two-widget grid */
+.wc-widgets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 840px;
+  margin: 0 auto;
+}
+.wc-widget-col { display: flex; flex-direction: column; }
+.wc-widget-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 10px;
+}
+.wc-widget-col iframe {
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* legacy single-widget wrapper still used by DB until migration runs */
 .wc-widget-wrapper {
   max-width: 840px;
   margin: 0 auto;
@@ -2401,6 +2482,11 @@ footer {
 
   /* Testimonials */
   .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* World Cup Hub */
+  .wc-widgets-grid { grid-template-columns: 1fr; }
+  .wc-countdown-strip { gap: 10px; padding: 12px 16px; }
+  .wc-cd-num { font-size: 18px; min-width: 24px; }
 
   /* How-to */
   .how-to-grid { grid-template-columns: 1fr; gap: 24px; max-width: 480px; margin: 0 auto; }
