@@ -885,3 +885,18 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_wc_scores_v3', '1' );
 } );
+
+// ─── Maison Merch: Rename "View on Amazon" → "Buy Now" ───────────────────────
+add_action( 'init', function() {
+	if ( get_option( 'mm_buy_now_v1' ) === '1' ) {
+		return;
+	}
+	global $wpdb;
+	$wpdb->query(
+		"UPDATE {$wpdb->posts}
+		 SET post_content = REPLACE(post_content, 'View on Amazon', 'Buy Now')
+		 WHERE post_content LIKE '%View on Amazon%'"
+	);
+	wp_cache_flush();
+	update_option( 'mm_buy_now_v1', '1' );
+} );
