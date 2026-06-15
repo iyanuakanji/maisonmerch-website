@@ -1078,26 +1078,3 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_wc_scores_v6', '1' );
 } );
-
-// Maison Merch: Add WC 2026 fixed match ticker bar (v1)
-add_action( 'init', function() {
-	if ( get_option( 'mm_wc_ticker_v1' ) === '1' ) return;
-	global $wpdb;
-	$theme_dir = get_template_directory();
-	$templates = array(
-		'front-page' => $theme_dir . '/templates/front-page.html',
-		'home'       => $theme_dir . '/templates/home.html',
-	);
-	foreach ( $templates as $slug => $path ) {
-		if ( ! file_exists( $path ) ) continue;
-		$file_content = file_get_contents( $path );
-		if ( $file_content === false ) continue;
-		$wpdb->update(
-			$wpdb->posts,
-			array( 'post_content' => $file_content ),
-			array( 'post_name' => $slug, 'post_type' => 'wp_template' )
-		);
-	}
-	wp_cache_flush();
-	update_option( 'mm_wc_ticker_v1', '1' );
-} );
