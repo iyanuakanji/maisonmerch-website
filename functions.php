@@ -1078,3 +1078,36 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_wc_scores_v6', '1' );
 } );
+
+
+// Maison Merch: Create product landing pages for Match Day bundles (v1)
+add_action( 'init', function() {
+	if ( get_option( 'mm_product_pages_v1' ) === '1' ) return;
+
+	// Create Canada Match Day page
+	if ( ! get_page_by_path( 'canada-match-day' ) ) {
+		wp_insert_post( array(
+			'post_title'   => 'Canada Match Day Fan Bundle',
+			'post_name'    => 'canada-match-day',
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+			'post_content' => '',
+			'post_author'  => 1,
+		) );
+	}
+
+	// Create USA Match Day page
+	if ( ! get_page_by_path( 'usa-match-day' ) ) {
+		wp_insert_post( array(
+			'post_title'   => 'USA Match Day Fan Bundle',
+			'post_name'    => 'usa-match-day',
+			'post_status'  => 'publish',
+			'post_type'    => 'page',
+			'post_content' => '',
+			'post_author'  => 1,
+		) );
+	}
+
+	wp_cache_flush();
+	update_option( 'mm_product_pages_v1', '1' );
+} );
