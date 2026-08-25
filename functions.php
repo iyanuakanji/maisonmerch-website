@@ -1224,3 +1224,44 @@ add_action( 'init', function() {
 
 	update_option( 'mm_remove_announce_v2', '1' );
 } );
+
+// Maison Merch: Remove announcement bar from DB header - debug + broader search (v3)
+add_action( 'init', function() {
+	if ( get_option( 'mm_remove_announce_v3' ) === '1' ) return;
+	global $wpdb;
+
+	// Search ALL posts containing announcement-bar (regardless of type/name)
+	$posts = $wpdb->get_results(
+		"SELECT ID, post_content, post_type, post_name FROM {$wpdb->posts}
+		 WHERE post_content LIKE '%announcement-bar%'
+		 AND post_status = 'publish'"
+	);
+
+	foreach ( $posts as $post ) {
+		$content = $post->post_content;
+		$marker  = strpos( $content, 'announcement-bar' );
+		if ( $marker === false ) continue;
+
+		$div_open = strrpos( substr( $content, 0, $marker ), '<div' );
+		if ( $div_open === false ) continue;
+
+		$pos = $div_open; $depth = 0; $end = null; $len = strlen( $content );
+		while ( $pos < $len ) {
+			if ( substr( $content, $pos, 4 ) === '<div' ) {
+				$depth++; $pos += 4;
+			} elseif ( substr( $content, $pos, 6 ) === '</div>' ) {
+				$depth--;
+				if ( $depth === 0 ) { $end = $pos + 6; break; }
+				$pos += 6;
+			} else { $pos++; }
+		}
+
+		if ( $end !== null ) {
+			$cleaned = substr( $content, 0, $div_open ) . ltrim( substr( $content, $end ) );
+			$wpdb->update( $wpdb->posts, array( 'post_content' => $cleaned ), array( 'ID' => $post->ID ) );
+		}
+	}
+
+	wp_cache_flush();
+	update_option( 'mm_remove_announce_v3', '1' );
+} );

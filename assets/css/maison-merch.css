@@ -3077,3 +3077,6 @@ footer {
   .pp-final-cta h2 { font-size: 34px; }
   .pp-trust-points { gap: 20px; }
 }
+
+/* Hide World Cup announcement bar (post-WC cleanup) */
+.announcement-bar { display: none !important; }
