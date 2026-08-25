@@ -13,7 +13,7 @@
 
       <div class="hero-content">
         <div class="hero-eyebrow">
-          <span class="label-badge">World Cup 2026 Live</span>
+          <span class="label-badge">Fan Merchandise</span>
           <span class="hero-eyebrow-line"></span>
           <span>Fan Merchandise</span>
         </div>
@@ -32,10 +32,6 @@
           your identity with pride. Premium bundles for every
           kind of supporter.
         </p>
-        <div class="hero-urgency">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          FIFA WORLD CUP 2026 IS LIVE. ORDER NOW & ARRIVE GAME-READY!
-        </div>
         <div class="hero-ctas">
           <a href="#bundles" class="btn btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -280,135 +276,6 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════
-     WORLD CUP LIVE SCORES
-═══════════════════════════════════════════════════════ -->
-<section class="wc-scores-section">
-  <div class="container">
-    <div class="section-header light">
-      <h2>World Cup Hub</h2>
-      <p>Live scores, group standings, and a countdown to the next match - all updating in real time.</p>
-    </div>
-
-    <!-- Live strip + next-match countdown -->
-    <div class="wc-countdown-strip" id="wc-countdown-strip">
-      <div class="wc-strip-left">
-        <div class="wc-live-dot" aria-hidden="true"></div>
-        <div class="wc-cd-label" id="wc-cd-label">LIVE</div>
-        <div class="wc-cd-teams" id="wc-cd-teams">FIFA World Cup 2026</div>
-        <div class="wc-cd-timer" id="wc-cd-timer" style="display:none;">
-          <div class="wc-cd-unit"><span class="wc-cd-num" id="wc-cd-h">--</span><span class="wc-cd-lbl">h</span></div>
-          <div class="wc-cd-sep">:</div>
-          <div class="wc-cd-unit"><span class="wc-cd-num" id="wc-cd-m">--</span><span class="wc-cd-lbl">m</span></div>
-          <div class="wc-cd-sep">:</div>
-          <div class="wc-cd-unit"><span class="wc-cd-num" id="wc-cd-s">--</span><span class="wc-cd-lbl">s</span></div>
-        </div>
-      </div>
-      <span class="wc-live-sub">Order now &amp; arrive game-ready</span>
-    </div>
-
-    <!-- Live scores + standings grid -->
-    <div class="wc-widgets-grid">
-      <div class="wc-widget-col">
-        <div class="wc-widget-label">Live Scores</div>
-        <iframe
-          src="https://www.sportbusy.com/embed/world-cup?theme=dark"
-          height="520"
-          loading="lazy"
-          title="FIFA World Cup 2026 Live Scores"
-        ></iframe>
-      </div>
-      <div class="wc-widget-col">
-        <div class="wc-widget-label">Group Standings</div>
-        <iframe
-          src="https://www.sportbusy.com/embed/standings?league=world-cup&theme=dark"
-          height="520"
-          loading="lazy"
-          title="FIFA World Cup 2026 Group Standings"
-        ></iframe>
-      </div>
-    </div>
-
-    <p class="wc-attribution">Scores &amp; fixtures by <a href="https://www.sportbusy.com" target="_blank" rel="noopener noreferrer">SportBusy</a></p>
-  </div>
-</section>
-<script>
-/* -- World Cup Countdown - no external API, fully self-contained -- */
-(function(){
-  var teamsEl = document.getElementById('wc-cd-teams');
-  var labelEl = document.getElementById('wc-cd-label');
-  var hEl     = document.getElementById('wc-cd-h');
-  var mEl     = document.getElementById('wc-cd-m');
-  var sEl     = document.getElementById('wc-cd-s');
-  var timerEl = document.getElementById('wc-cd-timer');
-  if(!teamsEl) return;
-
-  /* Hardcoded group-stage match slots (UTC).
-     Group stage: June 11 - July 2 2026.
-     Standard kickoff windows: 15:00, 19:00, 22:00 ET = 19:00, 23:00, 02:00 UTC */
-  var SLOTS = [
-    /* June 13 */ '2026-06-13T19:00Z','2026-06-13T22:00Z',
-    /* June 14 */ '2026-06-14T19:00Z','2026-06-14T22:00Z',
-    /* June 15 */ '2026-06-15T01:00Z','2026-06-15T19:00Z','2026-06-15T22:00Z',
-    /* June 16 */ '2026-06-16T01:00Z','2026-06-16T19:00Z','2026-06-16T22:00Z',
-    /* June 17 */ '2026-06-17T01:00Z','2026-06-17T19:00Z','2026-06-17T22:00Z',
-    /* June 18 */ '2026-06-18T01:00Z','2026-06-18T19:00Z','2026-06-18T22:00Z',
-    /* June 19 */ '2026-06-19T01:00Z','2026-06-19T19:00Z','2026-06-19T22:00Z',
-    /* June 20 */ '2026-06-20T01:00Z','2026-06-20T19:00Z','2026-06-20T22:00Z',
-    /* June 21 */ '2026-06-21T01:00Z','2026-06-21T19:00Z','2026-06-21T22:00Z',
-    /* June 22 */ '2026-06-22T01:00Z','2026-06-22T19:00Z','2026-06-22T22:00Z',
-    /* June 23 */ '2026-06-23T01:00Z','2026-06-23T19:00Z','2026-06-23T22:00Z',
-    /* June 24 */ '2026-06-24T01:00Z','2026-06-24T19:00Z','2026-06-24T22:00Z',
-    /* June 25 */ '2026-06-25T01:00Z','2026-06-25T19:00Z','2026-06-25T22:00Z',
-    /* June 26 */ '2026-06-26T01:00Z','2026-06-26T19:00Z','2026-06-26T22:00Z',
-    /* June 27 */ '2026-06-27T01:00Z','2026-06-27T19:00Z','2026-06-27T22:00Z',
-    /* June 28 */ '2026-06-28T01:00Z','2026-06-28T19:00Z','2026-06-28T22:00Z',
-    /* June 29 */ '2026-06-29T01:00Z','2026-06-29T19:00Z','2026-06-29T22:00Z',
-    /* June 30 */ '2026-06-30T01:00Z','2026-06-30T19:00Z','2026-06-30T22:00Z',
-    /* July  1 */ '2026-07-01T01:00Z','2026-07-01T19:00Z','2026-07-01T22:00Z',
-    /* July  2 */ '2026-07-02T01:00Z','2026-07-02T19:00Z','2026-07-02T22:00Z',
-    /* R32 + knockout */ '2026-07-04T19:00Z','2026-07-04T22:00Z',
-    '2026-07-05T19:00Z','2026-07-05T22:00Z','2026-07-06T19:00Z','2026-07-06T22:00Z',
-    '2026-07-07T19:00Z','2026-07-07T22:00Z','2026-07-09T19:00Z','2026-07-09T22:00Z',
-    '2026-07-10T19:00Z','2026-07-10T22:00Z','2026-07-11T19:00Z','2026-07-11T22:00Z',
-    '2026-07-12T19:00Z','2026-07-13T19:00Z','2026-07-15T19:00Z',
-    '2026-07-17T19:00Z','2026-07-19T19:00Z'
-  ];
-
-  var now  = Date.now();
-  var next = null;
-  for(var i=0; i<SLOTS.length; i++){
-    var t = new Date(SLOTS[i]).getTime();
-    if(t > now){ next = t; break; }
-  }
-
-  function pad(n){ return String(n).padStart(2,'0'); }
-
-  if(!next){
-    /* Tournament over or no upcoming slot - show live badge */
-    return;
-  }
-
-  /* Switch strip to countdown mode */
-  labelEl.textContent = 'next match starts in...';
-  teamsEl.style.display = 'none';
-  timerEl.style.display = 'flex';
-
-  (function tick(){
-    var diff = next - Date.now();
-    if(diff <= 0){
-      labelEl.textContent = 'LIVE';
-      teamsEl.textContent = 'FIFA World Cup 2026';
-      timerEl.style.display = 'none';
-      return;
-    }
-    hEl.textContent = pad(Math.floor(diff/3600000));
-    mEl.textContent = pad(Math.floor((diff%3600000)/60000));
-    sEl.textContent = pad(Math.floor((diff%60000)/1000));
-    setTimeout(tick, 1000);
-  })();
-})();
-</script>
 
 <!-- ═══════════════════════════════════════════════════════
      BUNDLES
