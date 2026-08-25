@@ -1134,3 +1134,37 @@ add_action( 'init', function() {
 	wp_cache_flush();
 	update_option( 'mm_remove_wc_v1', '1' );
 } );
+
+// Maison Merch: Remove announcement bar from header template part (v1)
+add_action( 'init', function() {
+	if ( get_option( 'mm_remove_announce_v1' ) === '1' ) return;
+	global $wpdb;
+
+	// Get the header template part post
+	$post = $wpdb->get_row(
+		"SELECT ID, post_content FROM {$wpdb->posts}
+		 WHERE post_type IN ('wp_template_part', 'wp_template')
+		 AND post_name = 'header'
+		 AND post_status = 'publish'
+		 LIMIT 1"
+	);
+
+	if ( $post && strpos( $post->post_content, 'announcement-bar' ) !== false ) {
+		// Strip the entire announcement-bar div block
+		$cleaned = preg_replace(
+			'/<div[^>]*class=["\'][^"\']*announcement-bar[^"\']*["\'][^>]*>.*?<\/div>\s*/si',
+			'',
+			$post->post_content
+		);
+		if ( $cleaned && $cleaned !== $post->post_content ) {
+			$wpdb->update(
+				$wpdb->posts,
+				array( 'post_content' => $cleaned ),
+				array( 'ID' => $post->ID )
+			);
+			wp_cache_flush();
+		}
+	}
+
+	update_option( 'mm_remove_announce_v1', '1' );
+} );
